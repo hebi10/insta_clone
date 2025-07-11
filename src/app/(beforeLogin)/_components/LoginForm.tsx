@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { ForgotFlex, InputEvent, InputWrap, Legend, LineBox, LoginInput, SignUpFlex } from "./LoginForm.style";
 import { FlexContainer } from "@/app/_styles/module.style";
+import Link from "next/link";
 
 
 export default function LoginForm() {
@@ -24,8 +25,8 @@ export default function LoginForm() {
         <em>또는</em>
       </LineBox>
       <div>
-        <ForgotFlex flex pt={16} pb={16} justify={"center"} ><a href="#">비밀번호를 잊어버리셨나요?</a></ForgotFlex>
-        <SignUpFlex flex pt={16} pb={16} justify={"center"} ><p>계정이 없으신가요?</p><a href="#">가입하기</a></SignUpFlex>
+        <ForgotFlex flex pt={16} pb={16} justify={"center"} ><Link href="/accounts/password/reset">비밀번호를 잊어버리셨나요?</Link></ForgotFlex>
+        <SignUpFlex flex pt={16} pb={16} justify={"center"} ><p>계정이 없으신가요?</p><Link href="/accounts/emailsignup">가입하기</Link></SignUpFlex>
       </div>
     </>
   );

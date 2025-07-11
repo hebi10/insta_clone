@@ -1,4 +1,5 @@
-// styles/ui.ts
+"use client";
+
 import styled, { css } from 'styled-components';
 
 // 상수
@@ -99,7 +100,7 @@ export const display = css<UiProps>`
   ${({ none }) => none && 'display: none;'}
 `;
 
-// 3. styled-components
+// styled-components
 export const Button = styled.button<UiProps>`
   background-color: #007bff;
   color: white;

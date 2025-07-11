@@ -19,6 +19,7 @@ export const ImageWrap = styled.div`
   width: 60%;
   position: relative;
   aspect-ratio: 27/22;
+  overflow: hidden;
 
   & img {
     box-sizing: border-box;
