@@ -18,7 +18,10 @@ export default async (prevState: { message: string | null }, formData: FormData)
   }
   let shouldRedirect = false;
   try {
-    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? '';
+    const baseUrl =
+      process.env.NEXT_PUBLIC_BASE_URL ||
+      process.env.NEXTAUTH_URL ||
+      'http://localhost:3000';
     const response = await fetch(`${baseUrl}/api/users`, {
       method: 'post',
       body: formData,
