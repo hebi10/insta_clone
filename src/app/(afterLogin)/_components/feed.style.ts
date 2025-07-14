@@ -12,6 +12,16 @@ export const FeedHeader = styled.header`
   padding: 12px 16px;
   font-weight: bold;
   font-size: 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+`;
+
+export const Avatar = styled.img`
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
 `;
 
 export const Username = styled.span`

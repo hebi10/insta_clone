@@ -1,41 +1,33 @@
 import FeedItem from "./_components/feed";
 import { Main } from "./AfterLoginPage.style";
+import { faker } from "@faker-js/faker";
+import { useMemo } from "react";
 
-const dummyData = [
-  {
-    username: 'haebi.dev',
-    imageUrl: 'https://placehold.co/600x400',
-    description: '오늘도 개발하는 하루 🧑‍💻'
-  },
-  {
-    username: 'daily.cat',
-    imageUrl: 'https://placehold.co/600x400',
-    description: '냥냥펀치 발사!'
-  },
-  {
-    username: 'daily.cat',
-    imageUrl: 'https://placehold.co/600x400',
-    description: '냥냥펀치 발사!'
-  },
-  {
-    username: 'daily.cat',
-    imageUrl: 'https://placehold.co/600x400',
-    description: '냥냥펀치 발사!'
-  },
-  {
-    username: 'daily.cat',
-    imageUrl: 'https://placehold.co/600x400',
-    description: '냥냥펀치 발사!'
-  }
-];
+interface Post {
+  username: string;
+  avatarUrl: string;
+  imageUrl: string;
+  description: string;
+}
 
 export default function AfterLoginPage() {
+  const dummyData: Post[] = useMemo(
+    () =>
+      Array.from({ length: 5 }).map(() => ({
+        username: faker.internet.userName(),
+        avatarUrl: faker.image.avatar(),
+        imageUrl: faker.image.urlPicsumPhotos({ width: 600, height: 400 }),
+        description: faker.lorem.sentence(),
+      })),
+    []
+  );
   return (
     <Main>
       {dummyData.map((item, idx) => (
         <FeedItem
           key={idx}
           username={item.username}
+          avatarUrl={item.avatarUrl}
           imageUrl={item.imageUrl}
           description={item.description}
         />
