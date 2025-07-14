@@ -31,6 +31,7 @@ export function makeServer() {
     },
     seeds(server) {
       server.createList('post', 5);
+
       // 임시 유저 생성 (id: 1, email: test@test.com, password: 1234)
       server.create('user', {
         id: '1',
@@ -41,31 +42,45 @@ export function makeServer() {
       });
     },
     routes() {
-      this.namespace = 'api';
+      this.namespace = 'api/auth';
       this.timing = 750;
 
-      this.get('/posts', (schema) => {
-        // @ts-ignore
-        return schema.all('post');
+      // 1. 인증 제공자
+      this.get('/providers', () => {
+        return {
+          credentials: {
+            id: 'credentials',
+            name: 'Credentials',
+            type: 'credentials',
+          },
+        };
       });
 
-      // 로그인 엔드포인트 추가
-      this.post('/login', (schema, request) => {
-        const attrs = JSON.parse(request.requestBody);
-        const { email, password } = attrs;
+      // 2. CSRF 토큰
+      this.get('/csrf', () => {
+        // NextAuth는 실제로 csrf 토큰이 필요함
+        return {
+          csrfToken: faker.string.uuid(),
+        };
+      });
+
+      // 3. 로그인(콜백)
+      this.post('/callback/credentials', (schema, request) => {
+        const body = JSON.parse(request.requestBody);
+        const { csrfToken, email, id, password } = body;
+
+        // id 또는 email로 받는 경우 모두 대응
+        const userId = id || email;
 
         // @ts-ignore
-        const user = schema.users.findBy({ email, password });
+        const user = schema.users.findBy({ email: userId, password });
 
         if (user) {
           return {
-            user: {
-              id: user.id,
-              email: user.email,
-              username: user.username,
-              avatarUrl: user.avatarUrl,
-            },
-            token: faker.string.uuid(),
+            id: user.id,
+            email: user.email,
+            name: user.username,
+            image: user.avatarUrl,
           };
         } else {
           return new Response(
@@ -75,6 +90,6 @@ export function makeServer() {
           );
         }
       });
-    },
+    }
   });
 }
