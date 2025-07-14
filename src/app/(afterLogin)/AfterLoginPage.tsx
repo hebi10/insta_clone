@@ -9,6 +9,8 @@ interface Post {
   avatarUrl: string;
   imageUrl: string;
   description: string;
+  likeCount: number;
+  commentCount: number;
 }
 
 export default function AfterLoginPage() {
@@ -19,6 +21,8 @@ export default function AfterLoginPage() {
         avatarUrl: faker.image.avatar(),
         imageUrl: faker.image.urlPicsumPhotos({ width: 600, height: 400 }),
         description: faker.lorem.sentence(),
+        likeCount: faker.number.int({ min: 1, max: 5000 }),
+        commentCount: faker.number.int({ min: 1, max: 200 }),
       })),
     []
   );
@@ -35,6 +39,8 @@ export default function AfterLoginPage() {
             avatarUrl={item.avatarUrl}
             imageUrl={item.imageUrl}
             description={item.description}
+            likeCount={item.likeCount}
+            commentCount={item.commentCount}
           />
         ))}
       </ContentArea>

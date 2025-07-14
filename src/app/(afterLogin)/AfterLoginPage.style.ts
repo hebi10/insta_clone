@@ -17,4 +17,6 @@ export const LeftArea = styled.div`
 export const ContentArea = styled.div`
   flex: 1;
   overflow-y: auto;
+  height: 100vh;
+  padding: 20px 0;
 `;

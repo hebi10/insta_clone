@@ -1,12 +1,13 @@
 'use client';
 
-import { NavWrap, NavList, NavItem, Avatar } from './leftSide.style';
+import { NavWrap, NavList, NavItem, Avatar, Logo } from './leftSide.style';
 import { faker } from '@faker-js/faker';
 import { FiHome, FiSearch, FiCompass, FiFilm, FiSend, FiHeart, FiPlusSquare, FiUser } from 'react-icons/fi';
 
 export default function LeftSide() {
   return (
     <NavWrap>
+      <Logo>Instagram</Logo>
       <NavList>
         <NavItem><FiHome /> 홈</NavItem>
         <NavItem><FiSearch /> 검색</NavItem>
