@@ -1,14 +1,15 @@
 export const metadata = {
   title: {
-    default: '인스타 클론',
-    template: '해비 | 인스타 클론',
+    default: 'Instagram clone',
+    template: 'Hebi | Instagram clone',
   },
-  description: '인스타 클론 프로젝트입니다.',
+  description: 'Instagram clone application built with Next.js, TypeScript, and MirageJS for mock API.',
 };
 
 import Providers from './providers';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+
   return (
     <html lang="ko">
       <body>

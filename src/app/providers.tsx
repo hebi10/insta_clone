@@ -4,15 +4,31 @@ import GlobalStyle from '@/app/_styles/global.style';
 import FontsStyle from '@/app/_styles/fonts.style';
 import { ThemeProvider } from "styled-components";
 import { theme } from "@/app/_styles/theme";
+import { useEffect, useState } from "react";
+import { makeServer } from "@/mock/server";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { SessionProvider } from "next-auth/react";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
+  const [client] = useState(() => new QueryClient());
+
+  useEffect(() => {
+    makeServer();
+  }, []);
+
   return (
-    <StyledComponentsRegistry>
-      <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <FontsStyle />
-        {children}
-      </ThemeProvider>
-    </StyledComponentsRegistry>
+    <QueryClientProvider client={client}>
+      <SessionProvider>
+        <ThemeProvider theme={theme}>
+          <StyledComponentsRegistry>
+            <GlobalStyle />
+            <FontsStyle />
+            {children}
+          </StyledComponentsRegistry>
+        </ThemeProvider>
+        <ReactQueryDevtools initialIsOpen={false} />
+      </SessionProvider>
+    </QueryClientProvider>
   );
 }

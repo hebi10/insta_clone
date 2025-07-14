@@ -1,15 +1,17 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
 import AfterLoginPage from './(afterLogin)/AfterLoginPage';
 import BeforeLoginPage from './(beforeLogin)/BeforeLoginPage';
 
-// 임시 로그인 상태 변수: true면 로그인 페이지, false면 비로그인 페이지
-const isLogin = true; 
-// const isLogin = false;
-
 export default function Page() {
-  if (isLogin) {
+  const { data: session, status } = useSession();
+
+  console.log('Session:', session, 'Status:', status);
+
+  if (session) {
     return <AfterLoginPage />;
   }
+
   return <BeforeLoginPage />;
 }

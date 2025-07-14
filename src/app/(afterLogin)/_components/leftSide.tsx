@@ -2,6 +2,7 @@
 
 import { NavWrap, NavList, NavItem, Avatar, Logo } from './leftSide.style';
 import { faker } from '@faker-js/faker';
+import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import {
   FiHome,
@@ -54,11 +55,10 @@ export default function LeftSide() {
             <FiPlusSquare /> <span>만들기</span>
           </Link>
         </NavItem>
-        <NavItem>
-          <Link href="/my_profile">
-            <Avatar src={faker.image.avatar()} alt="fingerpets96님의 프로필 사진" />
-            <span>프로필</span>
-          </Link>
+        <NavItem onClick={() => signOut()}>
+          <Avatar src={faker.image.avatar()} alt="fingerpets96님의 프로필 사진" />
+          <span>프로필</span>
+          <span>로그아웃</span>
         </NavItem>
       </NavList>
     </NavWrap>

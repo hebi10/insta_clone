@@ -22,9 +22,22 @@ export const LeftArea = styled.div`
 `;
 
 export const ContentArea = styled.div`
+  display: flex;
   flex: 1;
   overflow-y: auto;
-  height: 100vh;
+`;
+
+export const LeftList = styled.div`
+  flex: 1;
   padding: 20px 0;
   box-sizing: border-box;
+`;
+
+export const RightArea = styled.div`
+  width: 300px;
+  margin-left: 20px;
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
 `;
