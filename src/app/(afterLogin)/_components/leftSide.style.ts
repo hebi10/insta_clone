@@ -22,16 +22,19 @@ export const NavList = styled.ul`
 `;
 
 export const NavItem = styled.li`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  cursor: pointer;
+  a {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    color: inherit;
 
-  svg {
-    width: 24px;
-    height: 24px;
+    svg {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   &:last-child {
