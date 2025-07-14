@@ -1,5 +1,6 @@
 import FeedItem from "./_components/feed";
-import { Main } from "./AfterLoginPage.style";
+import LeftSide from "./_components/leftSide";
+import { Main, LeftArea, ContentArea } from "./AfterLoginPage.style";
 import { faker } from "@faker-js/faker";
 import { useMemo } from "react";
 
@@ -23,15 +24,20 @@ export default function AfterLoginPage() {
   );
   return (
     <Main>
-      {dummyData.map((item, idx) => (
-        <FeedItem
-          key={idx}
-          username={item.username}
-          avatarUrl={item.avatarUrl}
-          imageUrl={item.imageUrl}
-          description={item.description}
-        />
-      ))}
+      <LeftArea>
+        <LeftSide />
+      </LeftArea>
+      <ContentArea>
+        {dummyData.map((item, idx) => (
+          <FeedItem
+            key={idx}
+            username={item.username}
+            avatarUrl={item.avatarUrl}
+            imageUrl={item.imageUrl}
+            description={item.description}
+          />
+        ))}
+      </ContentArea>
     </Main>
   );
 }
