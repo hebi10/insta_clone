@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 export const NavWrap = styled.nav`
+  display: flex;
+  flex-direction: column;
   padding: 20px 12px;
   height: 100%;
   box-sizing: border-box;
@@ -16,7 +18,7 @@ export const NavList = styled.ul`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  height: 100%;
+  flex-grow: 1;
 `;
 
 export const NavItem = styled.li`
@@ -26,6 +28,7 @@ export const NavItem = styled.li`
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
+
   svg {
     width: 24px;
     height: 24px;

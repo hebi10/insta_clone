@@ -19,4 +19,5 @@ export const ContentArea = styled.div`
   overflow-y: auto;
   height: 100vh;
   padding: 20px 0;
+  box-sizing: border-box;
 `;
