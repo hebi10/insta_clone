@@ -17,7 +17,8 @@ const handler = NextAuth({
         console.log("로그인데이터:", credentials);
 
         // 1. 외부 API로 로그인 요청
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/auth/providers`, {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? '';
+        const response = await fetch(`${baseUrl}/api/auth/callback/credentials`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
