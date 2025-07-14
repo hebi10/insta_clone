@@ -6,6 +6,12 @@ export const NavWrap = styled.nav`
   box-sizing: border-box;
 `;
 
+export const Logo = styled.h1`
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 24px;
+  margin-bottom: 24px;
+`;
+
 export const NavList = styled.ul`
   display: flex;
   flex-direction: column;
@@ -18,6 +24,7 @@ export const NavItem = styled.li`
   align-items: center;
   gap: 12px;
   font-size: 14px;
+  font-weight: 500;
   cursor: pointer;
   svg {
     width: 24px;
