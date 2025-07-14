@@ -18,7 +18,8 @@ export default async (prevState: { message: string | null }, formData: FormData)
   }
   let shouldRedirect = false;
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/users`, {
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? '';
+    const response = await fetch(`${baseUrl}/api/users`, {
       method: 'post',
       body: formData,
       credentials: 'include',
@@ -30,7 +31,7 @@ export default async (prevState: { message: string | null }, formData: FormData)
     console.log(await response.json())
     shouldRedirect = true;
     await signIn("credentials", {
-      username: formData.get('id'),
+      email: formData.get('id'),
       password: formData.get('password'),
       redirect: false,
     })
