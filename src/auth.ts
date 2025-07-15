@@ -16,7 +16,7 @@ export const {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id: credentials.username,
+            email: credentials.username,
             password: credentials.password,
           }),
         });
