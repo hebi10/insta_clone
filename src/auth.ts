@@ -12,11 +12,12 @@ export const {
   providers: [
     CredentialsProvider({
       async authorize(credentials) {
-        const authResponse = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/login`, {
+        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "";
+        const authResponse = await fetch(`${baseUrl}/api/login`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            id: credentials.username,
+            email: credentials.email,
             password: credentials.password,
           }),
         });
