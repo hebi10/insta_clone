@@ -1,11 +1,13 @@
 interface Props {
-  params: { username: string };
+  params: Promise<{ username: string }>;
 }
 
-export default function ProfilePage({ params }: Props) {
+export default async function ProfilePage({ params }: Props) {
+  const resolvedParams = await params;
+  
   return (
     <div style={{ padding: '20px' }}>
-      <h2>{`${params.username} 프로필 페이지 (준비 중)`}</h2>
+      <h2>{`${resolvedParams.username} 프로필 페이지 (준비 중)`}</h2>
     </div>
   );
 }

@@ -1,11 +1,13 @@
 interface Props {
-  params: { chatId: string };
+  params: Promise<{ chatId: string }>;
 }
 
-export default function ChatPage({ params }: Props) {
+export default async function ChatPage({ params }: Props) {
+  const resolvedParams = await params;
+  
   return (
     <div style={{ padding: '20px' }}>
-      <h2>{`채팅 ${params.chatId} (준비 중)`}</h2>
+      <h2>{`채팅 ${resolvedParams.chatId} (준비 중)`}</h2>
     </div>
   );
 }
