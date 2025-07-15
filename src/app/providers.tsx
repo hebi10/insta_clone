@@ -12,7 +12,7 @@ import { SessionProvider } from "next-auth/react";
 
 interface ProvidersProps {
   children: React.ReactNode;
-  session?: any; 
+  session?: any;
 }
 
 export default function Providers({ children, session }: ProvidersProps) {
@@ -32,8 +32,8 @@ export default function Providers({ children, session }: ProvidersProps) {
             {children}
           </StyledComponentsRegistry>
         </ThemeProvider>
-        <ReactQueryDevtools initialIsOpen={false} />
       </SessionProvider>
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
 }

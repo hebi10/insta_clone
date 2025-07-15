@@ -1,19 +1,36 @@
 'use client';
 
+import { useState } from 'react';
 import {
   FeedWrapper,
   FeedHeader,
+  FeedHeaderLeft,
   FeedImage,
-  FeedFooter,
-  Username,
-  Description,
-  Avatar,
   FeedActions,
   ActionsLeft,
+  ActionButton,
+  LikesSection,
   Likes,
+  FeedContent,
+  Description,
   CommentCount,
+  TimeStamp,
+  CommentSection,
+  CommentInput,
+  PostButton,
+  Username,
+  UserInfo,
+  Location,
+  Avatar,
+  MoreButton,
 } from './feed.style';
-import { FiHeart, FiMessageCircle, FiSend, FiBookmark, FiMoreHorizontal } from 'react-icons/fi';
+import { 
+  FiHeart, 
+  FiMessageCircle, 
+  FiSend, 
+  FiBookmark, 
+  FiMoreHorizontal 
+} from 'react-icons/fi';
 
 interface FeedItemProps {
   username: string;
@@ -32,31 +49,109 @@ export default function FeedItem({
   likeCount,
   commentCount,
 }: FeedItemProps) {
+  const [isLiked, setIsLiked] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+  const [currentLikes, setCurrentLikes] = useState(likeCount);
+  const [comment, setComment] = useState('');
+
+  const handleLike = () => {
+    setIsLiked(!isLiked);
+    setCurrentLikes(prev => isLiked ? prev - 1 : prev + 1);
+  };
+
+  const handleSave = () => {
+    setIsSaved(!isSaved);
+  };
+
+  const handleComment = () => {
+    if (comment.trim()) {
+      // 댓글 처리 로직
+      setComment('');
+    }
+  };
+
+  const timeAgo = '2시간 전'; // 실제로는 계산된 시간
+
   return (
     <FeedWrapper>
+      {/* 피드 헤더 */}
       <FeedHeader>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+        <FeedHeaderLeft>
           <Avatar src={avatarUrl} alt={username} />
-          <Username>{username}</Username>
-        </div>
-        <FiMoreHorizontal />
+          <UserInfo>
+            <Username>{username}</Username>
+            <Location>Seoul, South Korea</Location>
+          </UserInfo>
+        </FeedHeaderLeft>
+        <MoreButton>
+          <FiMoreHorizontal />
+        </MoreButton>
       </FeedHeader>
+
+      {/* 피드 이미지 */}
       <FeedImage src={imageUrl} alt="post" />
+
+      {/* 액션 버튼들 */}
       <FeedActions>
         <ActionsLeft>
-          <FiHeart />
-          <FiMessageCircle />
-          <FiSend />
+          <ActionButton 
+            onClick={handleLike}
+            className={isLiked ? 'liked' : ''}
+          >
+            <FiHeart />
+          </ActionButton>
+          <ActionButton>
+            <FiMessageCircle />
+          </ActionButton>
+          <ActionButton>
+            <FiSend />
+          </ActionButton>
         </ActionsLeft>
-        <FiBookmark />
+        <ActionButton 
+          onClick={handleSave}
+          className={isSaved ? 'saved' : ''}
+        >
+          <FiBookmark />
+        </ActionButton>
       </FeedActions>
-      <Likes>{`좋아요 ${likeCount}개`}</Likes>
-      <FeedFooter>
+
+      {/* 좋아요 수 */}
+      <LikesSection>
+        <Likes>좋아요 {currentLikes.toLocaleString()}개</Likes>
+      </LikesSection>
+
+      {/* 피드 내용 */}
+      <FeedContent>
         <Description>
-          <Username>{username}</Username> {description}
+          <span className="username">{username}</span>
+          {description}
         </Description>
-        <CommentCount>{`댓글 ${commentCount}개 모두 보기`}</CommentCount>
-      </FeedFooter>
+        
+        {commentCount > 0 && (
+          <CommentCount>
+            댓글 {commentCount}개 모두 보기
+          </CommentCount>
+        )}
+        
+        <TimeStamp>{timeAgo}</TimeStamp>
+      </FeedContent>
+
+      {/* 댓글 입력 */}
+      <CommentSection>
+        <CommentInput
+          type="text"
+          placeholder="댓글 달기..."
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
+          onKeyPress={(e) => e.key === 'Enter' && handleComment()}
+        />
+        <PostButton 
+          onClick={handleComment}
+          disabled={!comment.trim()}
+        >
+          게시
+        </PostButton>
+      </CommentSection>
     </FeedWrapper>
   );
 }

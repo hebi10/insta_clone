@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
+import { faker } from '@faker-js/faker';
 
 export const {
   handlers: { GET, POST },
@@ -33,6 +34,7 @@ export const {
               id: mockUser.id,
               name: mockUser.username,
               email: mockUser.email,
+              image: faker.image.avatar(),
             };
           }
           return null;
@@ -62,6 +64,7 @@ export const {
             id: user.id,
             name: user.username || user.id,
             email: user.email || user.id,
+            image: user.avatarUrl || faker.image.avatar(),
           };
         } catch (error) {
           return null;

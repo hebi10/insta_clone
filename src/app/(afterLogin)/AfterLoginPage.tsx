@@ -1,8 +1,10 @@
+"use client";
 import FeedItem from "./_components/feed";
 import LeftSide from "./_components/leftSide";
 import MySide from "./_components/MySide";
 import { Main, LeftArea, ContentArea, LeftList, RightArea } from "./AfterLoginPage.style";
 import { useQuery } from '@tanstack/react-query';
+import { useSession } from "next-auth/react";
 
 interface Post {
   id: string;
@@ -21,6 +23,8 @@ async function fetchPosts(): Promise<Post[]> {
 }
 
 export default function AfterLoginPage() {
+  // NextAuth 쿠키에서 세션 데이터 가져오기
+  const { data: session, status } = useSession();
 
   const { data: posts = [] } = useQuery<Post[]>({
     queryKey: ['posts'],
@@ -30,7 +34,7 @@ export default function AfterLoginPage() {
   return (
     <Main>
       <LeftArea>
-        <LeftSide />
+        <LeftSide session={session} />
       </LeftArea>
       <ContentArea>
         <LeftList>
@@ -47,7 +51,7 @@ export default function AfterLoginPage() {
           ))}
         </LeftList>
         <RightArea>
-          <MySide />
+          <MySide session={session} />
         </RightArea>
       </ContentArea>
     </Main>

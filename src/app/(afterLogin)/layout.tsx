@@ -1,15 +1,48 @@
 "use client";
 
+import { useState } from "react";
+import { useSession } from "next-auth/react";
 import LeftSide from "./_components/leftSide";
-import { Container, LeftArea } from "./AfterLoginPage.style";
+import SearchModal from "./@modal/search/SearchModal";
+import { Container, LeftArea } from "./layout.style";
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+interface RootLayoutProps {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}
+
+export default function RootLayout({ children, modal }: RootLayoutProps) {
+  const { data: session } = useSession();
+  const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+
+  const handleSearchModalOpen = () => setIsSearchModalOpen(true);
+  const handleSearchModalClose = () => setIsSearchModalOpen(false);
+
   return (
-    <Container>
+    <Container className={isSearchModalOpen ? 'search-mode' : ''}>
       <LeftArea>
-        <LeftSide />
+        <LeftSide 
+          session={session} 
+          isSearchModalOpen={isSearchModalOpen}
+          onSearchModalOpen={handleSearchModalOpen}
+          onSearchModalClose={handleSearchModalClose}
+        />
       </LeftArea>
-      {children}
+      <div style={{ 
+        flex: 1, 
+        marginLeft: isSearchModalOpen ? '72px' : '220px',
+        transition: 'margin-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
+      }}>
+        {children}
+      </div>
+      
+      {/* 검색 모달 */}
+      <SearchModal 
+        isOpen={isSearchModalOpen} 
+        onClose={handleSearchModalClose} 
+      />
+      
+      {modal}
     </Container>
   );
 }
