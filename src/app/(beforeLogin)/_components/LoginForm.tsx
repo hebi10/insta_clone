@@ -1,13 +1,17 @@
+'use client';
+
 import Image from "next/image";
 import { ForgotFlex, InputEvent, InputWrap, Legend, LineBox, LoginInput, SignUpFlex } from "./LoginForm.style";
 import Link from "next/link";
 import useInput from "@/app/hook/useInput";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 
 export default function LoginForm() {
   const id = useInput();
   const password = useInput();
+  const router = useRouter();
 
   const testLogin = () => {
     id.setValue('test@test.com');
@@ -17,16 +21,18 @@ export default function LoginForm() {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-    const result = await signIn("credentials", {
-      redirect: false,
-      email: id.value,
-      password: password.value,
-    });
+    try {
+      const result = await signIn("credentials", {
+        username: id.value,
+        password: password.value,
+        redirect: false,
+      })
+      console.log("로그인 결과:", result);
+      router.replace('/');
+    } catch (err) {
+      console.error(err);
+      alert('아이디와 비밀번호가 일치하지 않습니다.');
 
-    if (result?.ok) {
-      window.location.href = "/";
-    } else {
-      alert("로그인에 실패했습니다. 이메일 또는 비밀번호를 확인해주세요.");
       id.reset();
       password.reset();
     }

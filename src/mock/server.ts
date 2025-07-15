@@ -31,8 +31,6 @@ export function makeServer() {
     },
     seeds(server) {
       server.createList('post', 5);
-
-      // 임시 유저 생성 (id: 1, email: test@test.com, password: 1234)
       server.create('user', {
         id: '1',
         email: 'test@test.com',
@@ -42,11 +40,10 @@ export function makeServer() {
       });
     },
     routes() {
-      this.namespace = 'api/auth';
+      this.namespace = 'api';
       this.timing = 750;
 
-      // 1. 인증 제공자
-      this.get('/providers', () => {
+      this.get('/auth/providers', () => {
         return {
           credentials: {
             id: 'credentials',
@@ -56,24 +53,55 @@ export function makeServer() {
         };
       });
 
-      // 2. CSRF 토큰
-      this.get('/csrf', () => {
-        // NextAuth는 실제로 csrf 토큰이 필요함
+      this.get('/auth/csrf', () => {
         return {
-          csrfToken: faker.string.uuid(),
+          csrfToken: 'test-csrf-token',
         };
       });
 
-      // 3. 로그인(콜백)
-      this.post('/callback/credentials', (schema, request) => {
-        const body = JSON.parse(request.requestBody);
-        const { csrfToken, email, id, password } = body;
+      this.get('/posts', (schema) => {
+        return schema.all('post');
+      });
 
-        // id 또는 email로 받는 경우 모두 대응
-        const userId = id || email;
-
+      // 로그인: email, password로 파싱
+      this.post('/login', (schema, request) => {
+        const { email, password } = JSON.parse(request.requestBody);
         // @ts-ignore
-        const user = schema.users.findBy({ email: userId, password });
+        const user = schema.users.findBy({ email, password });
+
+        if (user) {
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.username,
+            image: user.avatarUrl,
+            token: 'mock-jwt-token',
+          };
+        }
+        return new Response(
+          401,
+          { 'Content-Type': 'application/json' },
+          JSON.stringify({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' })
+        );
+      });
+
+      this.get('/auth/session', (schema) => {
+        return {
+          user: {
+            id: '1',
+            email: 'test@test.com',
+            name: 'mockuser',
+            image: faker.image.avatar(),
+          },
+          expires: new Date(Date.now() + 1000 * 60 * 60).toISOString(),
+        };
+      });
+
+      // NextAuth credential 콜백: email, password로 파싱
+      this.post('/auth/callback/credentials', (schema, request) => {
+        const { email, password } = JSON.parse(request.requestBody);
+        // @ts-ignore
+        const user = schema.users.findBy({ email, password });
 
         if (user) {
           return {
@@ -82,13 +110,12 @@ export function makeServer() {
             name: user.username,
             image: user.avatarUrl,
           };
-        } else {
-          return new Response(
-            401,
-            { 'Content-Type': 'application/json' },
-            JSON.stringify({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' })
-          );
         }
+        return new Response(
+          401,
+          { 'Content-Type': 'application/json' },
+          JSON.stringify({ error: '이메일 또는 비밀번호가 올바르지 않습니다.' })
+        );
       });
     }
   });

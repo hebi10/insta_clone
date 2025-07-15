@@ -10,7 +10,12 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SessionProvider } from "next-auth/react";
 
-export default function Providers({ children }: { children: React.ReactNode }) {
+interface ProvidersProps {
+  children: React.ReactNode;
+  session?: any; 
+}
+
+export default function Providers({ children, session }: ProvidersProps) {
   const [client] = useState(() => new QueryClient());
 
   useEffect(() => {
