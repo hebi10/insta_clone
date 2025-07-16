@@ -37,23 +37,16 @@ export const SectionHeader = styled.div`
   color: #262626;
 `;
 
-export const NotificationItem = styled.div`
+export const NotificationItem = styled.div<{ isRead?: boolean }>`
   display: flex;
   align-items: center;
   padding: 12px 24px;
   cursor: pointer;
   transition: background-color 0.1s ease;
+  background-color: ${props => props.isRead ? '#fff' : '#f8f9fa'};
   
   &:hover {
-    background-color: #fafafa;
-  }
-  
-  &.unread {
-    background-color: #f8f9fa;
-    
-    &:hover {
-      background-color: #f0f2f5;
-    }
+    background-color: ${props => props.isRead ? '#fafafa' : '#f0f2f5'};
   }
 `;
 
@@ -98,9 +91,9 @@ export const NotificationMedia = styled.img`
   object-fit: cover;
 `;
 
-export const FollowButton = styled.button`
-  background-color: #0095f6;
-  color: #fff;
+export const FollowButton = styled.button<{ isFollowing?: boolean }>`
+  background-color: ${props => props.isFollowing ? '#efefef' : '#0095f6'};
+  color: ${props => props.isFollowing ? '#262626' : '#fff'};
   border: none;
   padding: 8px 24px;
   border-radius: 8px;
@@ -110,16 +103,7 @@ export const FollowButton = styled.button`
   margin-left: 12px;
   
   &:hover {
-    background-color: #1877f2;
-  }
-  
-  &.following {
-    background-color: #efefef;
-    color: #262626;
-    
-    &:hover {
-      background-color: #dbdbdb;
-    }
+    background-color: ${props => props.isFollowing ? '#dbdbdb' : '#1877f2'};
   }
 `;
 

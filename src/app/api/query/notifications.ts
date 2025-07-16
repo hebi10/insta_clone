@@ -4,22 +4,17 @@ interface Notification {
   id: string;
   type: 'like' | 'comment' | 'follow' | 'mention';
   username: string;
-  avatar: string;
-  timestamp: Date;
+  avatarUrl: string;
+  timestamp: string;
   isRead: boolean;
-  postImage?: string;
-  text?: string;
+  postImageUrl?: string;
+  message?: string;
   isFollowing?: boolean;
 }
 
 export async function fetchNotifications(): Promise<Notification[]> {
-  const res = await fetch('/api/notifications');
-  const data = await res.json();
-  const notifications = data.notifications || [];
-  
-  // timestamp를 Date 객체로 변환
-  return notifications.map((notification: any) => ({
-    ...notification,
-    timestamp: new Date(notification.timestamp)
-  }));
+  const response = await fetch('/api/notifications');
+  if (!response.ok) throw new Error('Failed to fetch notifications');
+  const data = await response.json();
+  return data.notifications ?? [];
 }

@@ -4,8 +4,7 @@ import GlobalStyle from '@/app/_styles/global.style';
 import FontsStyle from '@/app/_styles/fonts.style';
 import { ThemeProvider } from "styled-components";
 import { theme } from "@/app/_styles/theme";
-import { useEffect, useState } from "react";
-import { makeServer } from "@/mock/server";
+import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { SessionProvider } from "next-auth/react";
@@ -17,10 +16,6 @@ interface ProvidersProps {
 
 export default function Providers({ children, session }: ProvidersProps) {
   const [client] = useState(() => new QueryClient());
-
-  useEffect(() => {
-    makeServer();
-  }, []);
 
   return (
     <QueryClientProvider client={client}>

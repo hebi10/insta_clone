@@ -1,7 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { faker } from '@faker-js/faker';
+import { useQuery } from '@tanstack/react-query';
+import { fetchSearchResults } from '@/app/api/query';
 import {
   SearchModalOverlay,
   SearchModalContainer,
@@ -39,7 +40,7 @@ interface SearchModalProps {
 interface SearchResult {
   id: string;
   username: string;
-  name: string;
+  fullName: string;
   avatar: string;
   isVerified?: boolean;
 }
@@ -47,29 +48,36 @@ interface SearchResult {
 export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [recentSearches, setRecentSearches] = useState<SearchResult[]>([]);
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
   const [popularImages, setPopularImages] = useState<string[]>([]);
 
-  // Mock 데이터 생성
+  // 검색 API 호출
+  const { data: searchData, isLoading } = useQuery({
+    queryKey: ['search', searchQuery],
+    queryFn: () => fetchSearchResults(searchQuery),
+    enabled: searchQuery.trim().length > 0,
+    staleTime: 30000, // 30초간 캐시 유지
+  });
+
+  // Mock 데이터 생성 (최근 검색 및 인기 이미지)
   useEffect(() => {
     const mockRecentSearches: SearchResult[] = [
       {
         id: '1',
         username: 'john_doe',
-        name: 'John Doe',
-        avatar: faker.image.avatar(),
+        fullName: 'John Doe',
+        avatar: 'https://picsum.photos/seed/user1/40/40',
       },
       {
         id: '2',
         username: 'jane_smith',
-        name: 'Jane Smith',
-        avatar: faker.image.avatar(),
+        fullName: 'Jane Smith',
+        avatar: 'https://picsum.photos/seed/user2/40/40',
       },
       {
         id: '3',
         username: 'design_studio',
-        name: 'Design Studio',
-        avatar: faker.image.avatar(),
+        fullName: 'Design Studio',
+        avatar: 'https://picsum.photos/seed/user3/40/40',
         isVerified: true,
       },
     ];
@@ -81,23 +89,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     );
     setPopularImages(images);
   }, []);
-
-  // 검색 로직
-  useEffect(() => {
-    if (searchQuery.trim()) {
-      // Mock 검색 결과
-      const mockResults: SearchResult[] = Array.from({ length: 8 }, (_, i) => ({
-        id: `result-${i}`,
-        username: `${searchQuery}_user${i + 1}`,
-        name: faker.person.fullName(),
-        avatar: faker.image.avatar(),
-        isVerified: Math.random() > 0.7,
-      }));
-      setSearchResults(mockResults);
-    } else {
-      setSearchResults([]);
-    }
-  }, [searchQuery]);
 
   const handleClearSearch = () => {
     setSearchQuery('');
@@ -165,7 +156,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                             {item.username}
                             {item.isVerified && ' ✓'}
                           </ResultUsername>
-                          <ResultName>{item.name}</ResultName>
+                          <ResultName>{item.fullName}</ResultName>
                         </ResultInfo>
                         <RemoveButton 
                           onClick={(e) => {
@@ -196,9 +187,9 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           ) : (
             /* 검색 결과 */
             <RecentSection>
-              {searchResults.length > 0 ? (
+              {searchData?.users && searchData.users.length > 0 ? (
                 <SearchResultsList>
-                  {searchResults.map((item) => (
+                  {searchData.users.map((item: any) => (
                     <SearchResultItem 
                       key={item.id}
                       onClick={() => handleResultClick(item)}
@@ -209,11 +200,13 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                           {item.username}
                           {item.isVerified && ' ✓'}
                         </ResultUsername>
-                        <ResultName>{item.name}</ResultName>
+                        <ResultName>{item.fullName}</ResultName>
                       </ResultInfo>
                     </SearchResultItem>
                   ))}
                 </SearchResultsList>
+              ) : isLoading ? (
+                <NoResultsMessage>검색 중...</NoResultsMessage>
               ) : (
                 <NoResultsMessage>
                   "{searchQuery}"에 대한 결과를 찾을 수 없습니다.

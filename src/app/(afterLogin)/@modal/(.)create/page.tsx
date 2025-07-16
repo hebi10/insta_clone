@@ -118,14 +118,34 @@ export default function CreateModal({ params, searchParams }: CreateModalProps) 
   const handleShare = async () => {
     setIsUploading(true);
     
-    // 가짜 업로드 시뮬레이션
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    setIsUploading(false);
-    
-    // 업로드 완료 후 홈으로 이동
-    alert('게시물이 성공적으로 업로드되었습니다!');
-    router.push('/');
+    try {
+      const response = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          caption,
+          tags,
+          imageUrl: selectedImage,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create post');
+      }
+
+      const data = await response.json();
+      
+      // 업로드 완료 후 홈으로 이동
+      alert('게시물이 성공적으로 업로드되었습니다!');
+      router.push('/');
+    } catch (error) {
+      console.error('Error creating post:', error);
+      alert('게시물 업로드에 실패했습니다. 다시 시도해주세요.');
+    } finally {
+      setIsUploading(false);
+    }
   };
 
   const handleBack = () => {

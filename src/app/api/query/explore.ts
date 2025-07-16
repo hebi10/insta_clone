@@ -4,5 +4,5 @@ export async function fetchExploreContent() {
   const response = await fetch('/api/explore');
   if (!response.ok) throw new Error('Failed to fetch explore content');
   const data = await response.json();
-  return data.explorePosts || [];
+  return data.exploreContent ?? [];
 }

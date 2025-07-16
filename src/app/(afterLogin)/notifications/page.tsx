@@ -26,11 +26,11 @@ interface Notification {
   id: string;
   type: 'like' | 'comment' | 'follow' | 'mention';
   username: string;
-  avatar: string;
-  timestamp: Date;
+  avatarUrl: string;
+  timestamp: string;
   isRead: boolean;
-  postImage?: string;
-  text?: string;
+  postImageUrl?: string;
+  message?: string;
   isFollowing?: boolean;
 }
 
@@ -48,38 +48,48 @@ export default function NotificationsPage() {
     }
   }, [fetchedNotifications]);
 
-  const displayNotifications = notifications.length > 0 ? notifications : fetchedNotifications;
-
   const getNotificationText = (notification: Notification) => {
+    if (notification.message) {
+      return notification.message;
+    }
+    
     switch (notification.type) {
       case 'like':
-        return `${notification.username}님이 회원님의 게시물을 좋아합니다.`;
+        return '님이 회원님의 게시물을 좋아합니다.';
       case 'comment':
-        return `${notification.username}님이 댓글을 남겼습니다: "${notification.text}"`;
+        return '님이 댓글을 남겼습니다.';
       case 'follow':
-        return `${notification.username}님이 회원님을 팔로우하기 시작했습니다.`;
+        return '님이 회원님을 팔로우하기 시작했습니다.';
       case 'mention':
-        return `${notification.username}님이 회원님을 언급했습니다.`;
+        return '님이 회원님을 언급했습니다.';
       default:
         return '';
     }
   };
 
-  const formatTime = (date: Date | string) => {
-    const dateObj = date instanceof Date ? date : new Date(date);
+  const formatTimestamp = (timestamp: string) => {
+    const date = new Date(timestamp);
     const now = new Date();
-    const diff = now.getTime() - dateObj.getTime();
-    const minutes = Math.floor(diff / (1000 * 60));
-    const hours = Math.floor(diff / (1000 * 60 * 60));
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const diffInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
-    if (minutes < 1) return '방금';
-    if (minutes < 60) return `${minutes}분`;
-    if (hours < 24) return `${hours}시간`;
-    return `${days}일`;
+    if (diffInSeconds < 60) return '방금 전';
+    if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}분 전`;
+    if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}시간 전`;
+    if (diffInSeconds < 604800) return `${Math.floor(diffInSeconds / 86400)}일 전`;
+    return date.toLocaleDateString();
   };
 
-  const handleFollow = (notificationId: string) => {
+  const markAsRead = (notificationId: string) => {
+    setNotifications(prevNotifications =>
+      prevNotifications.map(notification =>
+        notification.id === notificationId
+          ? { ...notification, isRead: true }
+          : notification
+      )
+    );
+  };
+
+  const toggleFollow = (notificationId: string) => {
     setNotifications(prevNotifications =>
       prevNotifications.map(notification =>
         notification.id === notificationId
@@ -89,63 +99,51 @@ export default function NotificationsPage() {
     );
   };
 
-  const groupNotificationsByDate = (notifications: Notification[]) => {
+  // 알림을 날짜별로 그룹화
+  const groupedNotifications = notifications.reduce((groups, notification) => {
+    const date = new Date(notification.timestamp);
     const today = new Date();
-    today.setHours(0, 0, 0, 0);
-    
     const yesterday = new Date(today);
     yesterday.setDate(yesterday.getDate() - 1);
-    
-    const thisWeek = new Date(today);
-    thisWeek.setDate(thisWeek.getDate() - 7);
 
-    const todayNotifications = notifications.filter(n => {
-      const notificationDate = n.timestamp instanceof Date ? n.timestamp : new Date(n.timestamp);
-      return notificationDate >= today;
-    });
-    const yesterdayNotifications = notifications.filter(n => {
-      const notificationDate = n.timestamp instanceof Date ? n.timestamp : new Date(n.timestamp);
-      return notificationDate >= yesterday && notificationDate < today;
-    });
-    const thisWeekNotifications = notifications.filter(n => {
-      const notificationDate = n.timestamp instanceof Date ? n.timestamp : new Date(n.timestamp);
-      return notificationDate >= thisWeek && notificationDate < yesterday;
-    });
-    const olderNotifications = notifications.filter(n => {
-      const notificationDate = n.timestamp instanceof Date ? n.timestamp : new Date(n.timestamp);
-      return notificationDate < thisWeek;
-    });
+    let key: string;
+    if (date.toDateString() === today.toDateString()) {
+      key = '오늘';
+    } else if (date.toDateString() === yesterday.toDateString()) {
+      key = '어제';
+    } else if (date.getTime() > today.getTime() - 7 * 24 * 60 * 60 * 1000) {
+      key = '이번 주';
+    } else {
+      key = '이전';
+    }
 
-    return { todayNotifications, yesterdayNotifications, thisWeekNotifications, olderNotifications };
-  };
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(notification);
+    return groups;
+  }, {} as Record<string, Notification[]>);
 
   if (isLoading) {
     return (
       <NotificationsContainer>
-        <NotificationsHeader>
-          <NotificationsTitle>알림</NotificationsTitle>
-        </NotificationsHeader>
-        <LoadingContainer>알림을 불러오는 중...</LoadingContainer>
+        <LoadingContainer>
+          <div>알림을 불러오는 중...</div>
+        </LoadingContainer>
       </NotificationsContainer>
     );
   }
 
-  if (displayNotifications.length === 0) {
+  if (notifications.length === 0) {
     return (
       <NotificationsContainer>
         <NotificationsHeader>
           <NotificationsTitle>알림</NotificationsTitle>
         </NotificationsHeader>
         <EmptyState>
-          <h3>알림이 없습니다</h3>
-          <p>새로운 알림이 있으면 여기에 표시됩니다.</p>
+          <div>새로운 알림이 없습니다.</div>
         </EmptyState>
       </NotificationsContainer>
     );
   }
-
-  const { todayNotifications, yesterdayNotifications, thisWeekNotifications, olderNotifications } = 
-    groupNotificationsByDate(displayNotifications);
 
   return (
     <NotificationsContainer>
@@ -154,165 +152,49 @@ export default function NotificationsPage() {
       </NotificationsHeader>
 
       <NotificationsList>
-        {todayNotifications.length > 0 && (
-          <NotificationSection>
-            <SectionHeader>오늘</SectionHeader>
-            {todayNotifications.map((notification) => (
-              <NotificationItem 
-                key={notification.id} 
-                className={!notification.isRead ? 'unread' : ''}
+        {Object.entries(groupedNotifications).map(([period, periodNotifications]) => (
+          <NotificationSection key={period}>
+            <SectionHeader>{period}</SectionHeader>
+            
+            {periodNotifications.map((notification) => (
+              <NotificationItem
+                key={notification.id}
+                isRead={notification.isRead}
+                onClick={() => markAsRead(notification.id)}
               >
-                <NotificationAvatar src={notification.avatar} alt={notification.username} />
-                <NotificationContent>
-                  <NotificationText
-                    dangerouslySetInnerHTML={{
-                      __html: getNotificationText(notification).replace(
-                        notification.username,
-                        `<span class="username">${notification.username}</span>`
-                      ),
-                    }}
-                  />
-                  <NotificationTime>{formatTime(notification.timestamp)}</NotificationTime>
-                </NotificationContent>
-                
-                {notification.type === 'follow' && (
-                  <FollowButton
-                    className={notification.isFollowing ? 'following' : ''}
-                    onClick={() => handleFollow(notification.id)}
-                  >
-                    {notification.isFollowing ? '팔로잉' : '팔로우'}
-                  </FollowButton>
-                )}
-                
-                {notification.postImage && (
-                  <NotificationMedia src={notification.postImage} alt="게시물" />
-                )}
-                
                 {!notification.isRead && <UnreadIndicator />}
-              </NotificationItem>
-            ))}
-          </NotificationSection>
-        )}
+                
+                <NotificationAvatar src={notification.avatarUrl} alt={notification.username} />
+                
+                <NotificationContent>
+                  <NotificationText>
+                    <strong>{notification.username}</strong>
+                    {getNotificationText(notification)}
+                  </NotificationText>
+                  <NotificationTime>
+                    {formatTimestamp(notification.timestamp)}
+                  </NotificationTime>
+                </NotificationContent>
 
-        {yesterdayNotifications.length > 0 && (
-          <NotificationSection>
-            <SectionHeader>어제</SectionHeader>
-            {yesterdayNotifications.map((notification) => (
-              <NotificationItem 
-                key={notification.id} 
-                className={!notification.isRead ? 'unread' : ''}
-              >
-                <NotificationAvatar src={notification.avatar} alt={notification.username} />
-                <NotificationContent>
-                  <NotificationText
-                    dangerouslySetInnerHTML={{
-                      __html: getNotificationText(notification).replace(
-                        notification.username,
-                        `<span class="username">${notification.username}</span>`
-                      ),
-                    }}
-                  />
-                  <NotificationTime>{formatTime(notification.timestamp)}</NotificationTime>
-                </NotificationContent>
-                
                 {notification.type === 'follow' && (
                   <FollowButton
-                    className={notification.isFollowing ? 'following' : ''}
-                    onClick={() => handleFollow(notification.id)}
+                    isFollowing={notification.isFollowing}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFollow(notification.id);
+                    }}
                   >
                     {notification.isFollowing ? '팔로잉' : '팔로우'}
                   </FollowButton>
                 )}
-                
-                {notification.postImage && (
-                  <NotificationMedia src={notification.postImage} alt="게시물" />
-                )}
-                
-                {!notification.isRead && <UnreadIndicator />}
-              </NotificationItem>
-            ))}
-          </NotificationSection>
-        )}
 
-        {thisWeekNotifications.length > 0 && (
-          <NotificationSection>
-            <SectionHeader>이번 주</SectionHeader>
-            {thisWeekNotifications.map((notification) => (
-              <NotificationItem 
-                key={notification.id} 
-                className={!notification.isRead ? 'unread' : ''}
-              >
-                <NotificationAvatar src={notification.avatar} alt={notification.username} />
-                <NotificationContent>
-                  <NotificationText
-                    dangerouslySetInnerHTML={{
-                      __html: getNotificationText(notification).replace(
-                        notification.username,
-                        `<span class="username">${notification.username}</span>`
-                      ),
-                    }}
-                  />
-                  <NotificationTime>{formatTime(notification.timestamp)}</NotificationTime>
-                </NotificationContent>
-                
-                {notification.type === 'follow' && (
-                  <FollowButton
-                    className={notification.isFollowing ? 'following' : ''}
-                    onClick={() => handleFollow(notification.id)}
-                  >
-                    {notification.isFollowing ? '팔로잉' : '팔로우'}
-                  </FollowButton>
+                {notification.postImageUrl && (
+                  <NotificationMedia src={notification.postImageUrl} alt="게시물" />
                 )}
-                
-                {notification.postImage && (
-                  <NotificationMedia src={notification.postImage} alt="게시물" />
-                )}
-                
-                {!notification.isRead && <UnreadIndicator />}
               </NotificationItem>
             ))}
           </NotificationSection>
-        )}
-
-        {olderNotifications.length > 0 && (
-          <NotificationSection>
-            <SectionHeader>이전</SectionHeader>
-            {olderNotifications.map((notification) => (
-              <NotificationItem 
-                key={notification.id} 
-                className={!notification.isRead ? 'unread' : ''}
-              >
-                <NotificationAvatar src={notification.avatar} alt={notification.username} />
-                <NotificationContent>
-                  <NotificationText
-                    dangerouslySetInnerHTML={{
-                      __html: getNotificationText(notification).replace(
-                        notification.username,
-                        `<span class="username">${notification.username}</span>`
-                      ),
-                    }}
-                  />
-                  <NotificationTime>{formatTime(notification.timestamp)}</NotificationTime>
-                </NotificationContent>
-                
-                {notification.type === 'follow' && (
-                  <FollowButton
-                    className={notification.isFollowing ? 'following' : ''}
-                    onClick={() => handleFollow(notification.id)}
-                  >
-                    {notification.isFollowing ? '팔로잉' : '팔로우'}
-                  </FollowButton>
-                )}
-                
-                {notification.postImage && (
-                  <NotificationMedia src={notification.postImage} alt="게시물" />
-                )}
-                
-                {!notification.isRead && <UnreadIndicator />}
-              </NotificationItem>
-            ))}
-          </NotificationSection>
-        )}
+        ))}
       </NotificationsList>
     </NotificationsContainer>
   );
