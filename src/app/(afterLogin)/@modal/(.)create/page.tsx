@@ -36,10 +36,11 @@ import {
 import { FiImage, FiX } from 'react-icons/fi';
 
 interface CreateModalProps {
-  onClose?: () => void;
+  params?: Promise<{ [key: string]: string | string[] }>;
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export default function CreateModal({ onClose }: CreateModalProps) {
+export default function CreateModal({ params, searchParams }: CreateModalProps) {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -50,11 +51,7 @@ export default function CreateModal({ onClose }: CreateModalProps) {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleClose = () => {
-    if (onClose) {
-      onClose();
-    } else {
-      router.back();
-    }
+    router.back();
   };
 
   const handleOverlayClick = (e: React.MouseEvent) => {

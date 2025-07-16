@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import LeftSide from "./_components/leftSide";
 import SearchModal from "./@modal/search/SearchModal";
-import CreateModal from "./@modal/(.)create/page";
 import { Container, LeftArea } from "./layout.style";
 
 interface RootLayoutProps {
@@ -15,12 +14,9 @@ interface RootLayoutProps {
 export default function RootLayout({ children, modal }: RootLayoutProps) {
   const { data: session } = useSession();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const handleSearchModalOpen = () => setIsSearchModalOpen(true);
   const handleSearchModalClose = () => setIsSearchModalOpen(false);
-  const handleCreateModalOpen = () => setIsCreateModalOpen(true);
-  const handleCreateModalClose = () => setIsCreateModalOpen(false);
 
   return (
     <Container className={isSearchModalOpen ? 'search-mode' : ''}>
@@ -30,8 +26,6 @@ export default function RootLayout({ children, modal }: RootLayoutProps) {
           isSearchModalOpen={isSearchModalOpen}
           onSearchModalOpen={handleSearchModalOpen}
           onSearchModalClose={handleSearchModalClose}
-          onCreateModalOpen={handleCreateModalOpen}
-          onCreateModalClose={handleCreateModalClose}
         />
       </LeftArea>
       <div style={{ 
@@ -47,11 +41,6 @@ export default function RootLayout({ children, modal }: RootLayoutProps) {
         isOpen={isSearchModalOpen} 
         onClose={handleSearchModalClose} 
       />
-      
-      {/* 생성 모달 */}
-      {isCreateModalOpen && (
-        <CreateModal onClose={handleCreateModalClose} />
-      )}
       
       {modal}
     </Container>
