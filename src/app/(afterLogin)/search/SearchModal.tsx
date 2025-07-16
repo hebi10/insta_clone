@@ -48,7 +48,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [recentSearches, setRecentSearches] = useState<SearchResult[]>([]);
   const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [popularImages, setPopularImages] = useState<string[]>([]);
 
   // Mock 데이터 생성
   useEffect(() => {
@@ -74,12 +73,6 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       },
     ];
     setRecentSearches(mockRecentSearches);
-
-    // 인기 이미지 생성 - 클라이언트에서만 실행
-    const images = Array.from({ length: 9 }, (_, i) => 
-      `https://picsum.photos/seed/popular-${i}/120/120`
-    );
-    setPopularImages(images);
   }, []);
 
   // 검색 로직
@@ -116,6 +109,10 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     console.log('Selected:', result);
     onClose();
   };
+
+  const popularImages = Array.from({ length: 9 }, () => 
+    faker.image.urlPicsumPhotos({ width: 120, height: 120 })
+  );
 
   return (
     <SearchModalOverlay isOpen={isOpen} onClick={onClose}>

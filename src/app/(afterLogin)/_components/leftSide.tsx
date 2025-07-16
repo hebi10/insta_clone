@@ -14,7 +14,6 @@ import {
   FiSend,
   FiHeart,
   FiPlusSquare,
-  FiMenu,
 } from 'react-icons/fi';
 
 interface LeftSideProps {
@@ -22,13 +21,17 @@ interface LeftSideProps {
   isSearchModalOpen?: boolean;
   onSearchModalOpen?: () => void;
   onSearchModalClose?: () => void;
+  onCreateModalOpen?: () => void;
+  onCreateModalClose?: () => void;
 }
 
 export default function LeftSide({ 
   session, 
   isSearchModalOpen = false,
   onSearchModalOpen,
-  onSearchModalClose 
+  onSearchModalClose,
+  onCreateModalOpen,
+  onCreateModalClose
 }: LeftSideProps) {
   const pathname = usePathname();
   const [localSearchModalOpen, setLocalSearchModalOpen] = useState(false);
@@ -129,10 +132,31 @@ export default function LeftSide({
         </NavItem>
         
         <NavItem isSearchMode={searchModalOpen} className={isActive('/create') ? 'active' : ''}>
-          <Link href="/create">
-            <FiPlusSquare />
-            <span>만들기</span>
-          </Link>
+          {onCreateModalOpen ? (
+            <button 
+              onClick={onCreateModalOpen}
+              style={{ 
+                background: 'none', 
+                border: 'none', 
+                cursor: 'pointer',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '16px',
+                padding: '12px',
+                width: '100%',
+                fontSize: '16px',
+                color: '#262626'
+              }}
+            >
+              <FiPlusSquare />
+              <span>만들기</span>
+            </button>
+          ) : (
+            <Link href="/create">
+              <FiPlusSquare />
+              <span>만들기</span>
+            </Link>
+          )}
         </NavItem>
         
         <NavItem isSearchMode={searchModalOpen} className={isActive(`/${session?.user?.name}`) ? 'active' : ''}>
@@ -149,7 +173,10 @@ export default function LeftSide({
       {/* 하단 메뉴 */}
       <MenuToggle isSearchMode={searchModalOpen}>
         <button onClick={logoutHandler}>
-          <FiMenu />
+          <Avatar 
+            src={session?.user?.image || '/images/default-avatar.png'} 
+            alt={`${session?.user?.name || 'User'}님의 프로필 사진`} 
+          />
           <span>로그아웃</span>
         </button>
       </MenuToggle>

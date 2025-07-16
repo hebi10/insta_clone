@@ -1,20 +1,7 @@
 import SearchModal from './SearchModal';
+import { redirect } from 'next/navigation';
 
-interface SearchPageProps {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
-export default async function SearchPage({ searchParams }: SearchPageProps) {
-  const params = await searchParams;
-  const isOpen = params?.modal === 'true';
-
-  return (
-    <SearchModal
-      isOpen={isOpen}
-      onClose={() => {
-        // 모달 닫기 로직
-        window.history.back();
-      }}
-    />
-  );
+export default function SearchPage() {
+  // 모달 검색 페이지에 직접 접근하면 홈으로 리다이렉트
+  redirect('/');
 }

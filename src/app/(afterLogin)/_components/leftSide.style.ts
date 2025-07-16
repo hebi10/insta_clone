@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const NavWrap = styled.nav<{ isSearchMode?: boolean }>`
+export const NavWrap = styled.nav.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isSearchMode',
+})<{ isSearchMode?: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 32px 12px 20px 12px;
@@ -13,7 +15,9 @@ export const NavWrap = styled.nav<{ isSearchMode?: boolean }>`
   overflow: hidden;
 `;
 
-export const Logo = styled.div<{ isSearchMode?: boolean }>`
+export const Logo = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isSearchMode',
+})<{ isSearchMode?: boolean }>`
   padding: 12px 12px 24px 12px;
   margin-bottom: 19px;
   
@@ -43,7 +47,9 @@ export const NavList = styled.ul`
   margin: 0;
 `;
 
-export const NavItem = styled.li<{ isSearchMode?: boolean }>`
+export const NavItem = styled.li.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isSearchMode',
+})<{ isSearchMode?: boolean }>`
   margin: 0;
   
   a, button {
@@ -112,7 +118,9 @@ export const Avatar = styled.img`
   object-fit: cover;
 `;
 
-export const MenuToggle = styled.div<{ isSearchMode?: boolean }>`
+export const MenuToggle = styled.div.withConfig({
+  shouldForwardProp: (prop) => prop !== 'isSearchMode',
+})<{ isSearchMode?: boolean }>`
   padding: 12px 12px;
   margin-top: 8px;
   

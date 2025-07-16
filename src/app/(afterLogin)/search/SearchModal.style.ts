@@ -1,8 +1,6 @@
 import styled from 'styled-components';
 
-export const SearchModalOverlay = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== 'isOpen',
-})<{ isOpen: boolean }>`
+export const SearchModalOverlay = styled.div<{ isOpen: boolean }>`
   position: fixed;
   top: 0;
   left: 0;
@@ -16,9 +14,7 @@ export const SearchModalOverlay = styled.div.withConfig({
   pointer-events: ${props => props.isOpen ? 'all' : 'none'};
 `;
 
-export const SearchModalContainer = styled.div.withConfig({
-  shouldForwardProp: (prop) => prop !== 'isOpen',
-})<{ isOpen: boolean }>`
+export const SearchModalContainer = styled.div<{ isOpen: boolean }>`
   position: fixed;
   left: 72px; /* LeftArea 아이콘 모드 너비 후 시작 */
   top: 0;

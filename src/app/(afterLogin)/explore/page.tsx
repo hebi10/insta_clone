@@ -1,7 +1,90 @@
+'use client';
+
+import { useState, useEffect } from 'react';
+import { useQuery } from '@tanstack/react-query';
+import { fetchExploreContent } from '@/app/api/query';
+import {
+  ExploreContainer,
+  ExploreHeader,
+  ExploreTitle,
+  ExploreSubtitle,
+  ExploreGrid,
+  ExploreItem,
+  ExploreImage,
+  ExploreOverlay,
+  OverlayStats,
+  LoadingContainer,
+  NoPostsMessage,
+} from './page.style';
+import { FiHeart, FiMessageCircle } from 'react-icons/fi';
+
+interface ExplorePost {
+  id: string;
+  imageUrl: string;
+  likeCount: number;
+  commentCount: number;
+  username: string;
+}
+
 export default function ExplorePage() {
+  const [posts, setPosts] = useState<ExplorePost[]>([]);
+
+  const { data: fetchedPosts = [], isLoading } = useQuery<ExplorePost[]>({
+    queryKey: ['explore'],
+    queryFn: fetchExploreContent,
+  });
+
+  useEffect(() => {
+    if (fetchedPosts.length > 0) {
+      setPosts(fetchedPosts);
+    }
+  }, [fetchedPosts]);
+
+  const displayPosts = posts.length > 0 ? posts : fetchedPosts;
+
+  if (isLoading) {
+    return (
+      <ExploreContainer>
+        <LoadingContainer>게시물을 불러오는 중...</LoadingContainer>
+      </ExploreContainer>
+    );
+  }
+
+  if (displayPosts.length === 0) {
+    return (
+      <ExploreContainer>
+        <NoPostsMessage>
+          <h3>표시할 게시물이 없습니다</h3>
+          <p>새로운 게시물이 올라오면 여기에 표시됩니다.</p>
+        </NoPostsMessage>
+      </ExploreContainer>
+    );
+  }
+
   return (
-    <div style={{ padding: '20px' }}>
-      <h2>탐색 탭 페이지 (준비 중)</h2>
-    </div>
+    <ExploreContainer>
+      <ExploreHeader>
+        <ExploreTitle>탐색</ExploreTitle>
+        <ExploreSubtitle>회원님을 위한 추천 게시물</ExploreSubtitle>
+      </ExploreHeader>
+
+      <ExploreGrid>
+        {displayPosts.map((post) => (
+          <ExploreItem key={post.id}>
+            <ExploreImage src={post.imageUrl} alt={`${post.username}의 게시물`} />
+            <ExploreOverlay className="overlay">
+              <OverlayStats>
+                <FiHeart />
+                {post.likeCount.toLocaleString()}
+              </OverlayStats>
+              <OverlayStats>
+                <FiMessageCircle />
+                {post.commentCount.toLocaleString()}
+              </OverlayStats>
+            </ExploreOverlay>
+          </ExploreItem>
+        ))}
+      </ExploreGrid>
+    </ExploreContainer>
   );
 }
