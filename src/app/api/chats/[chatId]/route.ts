@@ -18,10 +18,11 @@ export async function GET(
 
     const chatDetails = {
       id: chatId,
-      username: faker.internet.userName(),
+      username: faker.internet.username(),
       fullName: faker.person.fullName(),
       avatarUrl: faker.image.avatar(),
       isOnline: faker.datatype.boolean(),
+      lastSeen: faker.date.recent({ days: 7 }).toISOString(),
       messages: messages.sort((a, b) => 
         new Date(a.timestamp).getTime() - new Date(b.timestamp).getTime()
       ),

@@ -52,13 +52,36 @@ export default function ChatPage({ params }: Props) {
   const [newMessage, setNewMessage] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { data: chatData, isLoading } = useQuery({
+  const { data: chatData, isLoading, error } = useQuery({
     queryKey: ['chat', resolvedParams.chatId],
-    queryFn: () => fetchChatDetails(resolvedParams.chatId)
+    queryFn: () => fetchChatDetails(resolvedParams.chatId),
+    retry: 2,
+    retryDelay: 1000,
+    staleTime: 30000,
+    refetchOnWindowFocus: false
   });
 
-  const chatUser = chatData?.user;
-  const messages = chatData?.messages || [];
+  console.log('Chat data:', chatData);
+  console.log('Loading:', isLoading);
+  console.log('Error:', error);
+
+  const chatUser = chatData ? {
+    name: chatData.fullName || chatData.username,
+    avatar: chatData.avatarUrl || '/images/default-avatar.png',
+    isOnline: chatData.isOnline,
+    lastSeen: chatData.lastSeen ? new Date(chatData.lastSeen) : new Date()
+  } : null;
+
+  const messages = chatData?.messages?.map((msg: any) => ({
+    id: msg.id,
+    senderId: msg.senderId,
+    senderName: msg.senderName || 'User',
+    senderAvatar: '/images/default-avatar.png',
+    content: msg.message || msg.content,
+    type: msg.type === 'image' ? 'image' : 'text',
+    timestamp: new Date(msg.timestamp),
+    isOwn: msg.senderId === 'user1' // 현재 사용자를 user1으로 가정
+  })) || [];
 
   // 메시지 전송
   const handleSendMessage = () => {
@@ -103,10 +126,50 @@ export default function ChatPage({ params }: Props) {
     return `${days}일 전 활동`;
   };
 
-  if (isLoading || !chatUser) {
+  if (isLoading) {
     return (
       <ChatContainer>
-        <div style={{ padding: '20px', textAlign: 'center' }}>로딩 중...</div>
+        <div style={{ 
+          padding: '20px', 
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '50vh'
+        }}>
+          <div>채팅을 불러오는 중...</div>
+          <div style={{ fontSize: '14px', color: '#8e8e8e', marginTop: '8px' }}>
+            Chat ID: {resolvedParams.chatId}
+          </div>
+        </div>
+      </ChatContainer>
+    );
+  }
+
+  if (error) {
+    return (
+      <ChatContainer>
+        <div style={{ 
+          padding: '20px', 
+          textAlign: 'center',
+          color: '#ed4956'
+        }}>
+          채팅을 불러오는데 실패했습니다.
+          <div style={{ fontSize: '14px', marginTop: '8px' }}>
+            {error.message}
+          </div>
+        </div>
+      </ChatContainer>
+    );
+  }
+
+  if (!chatData || !chatUser) {
+    return (
+      <ChatContainer>
+        <div style={{ padding: '20px', textAlign: 'center' }}>
+          채팅 데이터를 찾을 수 없습니다.
+        </div>
       </ChatContainer>
     );
   }
