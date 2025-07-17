@@ -6,7 +6,7 @@ export default function CreatePage() {
       display: 'flex', 
       alignItems: 'center', 
       justifyContent: 'center', 
-      height: '100vh',
+      height: '100dvh',
       flexDirection: 'column',
       gap: '20px'
     }}>

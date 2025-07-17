@@ -58,7 +58,7 @@ export const theme = {
   instagram: {
     maxWidth: "935px",
     sidebarWidth: "293px",
-    postWidth: "600px",
+    postWidth: "470px",
     storyHeight: "118px",
     headerHeight: "54px",
     mobileHeaderHeight: "44px",

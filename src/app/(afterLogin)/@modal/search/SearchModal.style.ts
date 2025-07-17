@@ -7,23 +7,29 @@ export const SearchModalOverlay = styled.div.withConfig({
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background-color: transparent; /* 배경 투명 */
   z-index: 50; /* LeftArea(z-index: 100)보다 낮게 */
   display: ${props => props.isOpen ? 'flex' : 'none'};
   align-items: flex-start;
   justify-content: flex-start;
   pointer-events: ${props => props.isOpen ? 'all' : 'none'};
+  
+  /* 모바일에서는 배경을 어둡게 */
+  @media ${props => props.theme.media.mobile} {
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1001; /* 하단 탭바보다 위에 */
+  }
 `;
 
 export const SearchModalContainer = styled.div.withConfig({
   shouldForwardProp: (prop) => prop !== 'isOpen',
 })<{ isOpen: boolean }>`
   position: fixed;
-  left: 72px; /* LeftArea 아이콘 모드 너비 후 시작 */
+  left: 72px;
   top: 0;
   width: 397px;
-  height: 100vh;
+  height: 100dvh;
   background-color: #ffffff;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
   border-radius: 0 16px 16px 0;
@@ -35,6 +41,17 @@ export const SearchModalContainer = styled.div.withConfig({
   /* 슬라이드 애니메이션 */
   transform: translateX(${props => props.isOpen ? '0' : '-100%'});
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+
+  @media ${props => props.theme.media.mobile} {
+    width: 100%;
+    left: 0;
+    padding-bottom: 60px;
+    border-radius: 0;
+    box-shadow: none;
+    z-index: 1002; /* 오버레이보다 위에 */
+    transform: translateY(${props => props.isOpen ? '0' : '100%'});
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
 `;
 
 export const SearchModalHeader = styled.div`
@@ -43,7 +60,32 @@ export const SearchModalHeader = styled.div`
   position: relative;
 `;
 
+export const MobileCloseButton = styled.button`
+  display: none;
+  
+  @media ${props => props.theme.media.mobile} {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #262626;
+      background-color: #f5f5f5;
+      border-radius: 50%;
+    
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+  }
+`;
+
 export const SearchTitle = styled.h2`
+  display: flex;
+  justify-content: space-between;
   font-size: 24px;
   font-weight: 600;
   color: #262626;

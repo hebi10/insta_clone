@@ -4,7 +4,7 @@ export const NotificationsContainer = styled.div`
   max-width: 600px;
   margin: 0 auto;
   background-color: #fff;
-  min-height: 100vh;
+  min-height: 100dvh;
   
   /* 모바일에서는 전체 너비 사용 */
   @media ${props => props.theme.media.mobile} {

@@ -5,7 +5,7 @@ export const SearchModalOverlay = styled.div<{ isOpen: boolean }>`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: 100dvh;
   background-color: transparent; /* 배경 투명 */
   z-index: 50; /* LeftArea(z-index: 100)보다 낮게 */
   display: ${props => props.isOpen ? 'flex' : 'none'};
@@ -26,7 +26,7 @@ export const SearchModalContainer = styled.div<{ isOpen: boolean }>`
   left: 72px; /* LeftArea 아이콘 모드 너비 후 시작 */
   top: 0;
   width: 397px;
-  height: 100vh;
+  height: 100dvh;
   background-color: #ffffff;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
   border-radius: 0 16px 16px 0;
@@ -98,6 +98,8 @@ export const SearchTitle = styled.h2`
   
   /* 모바일에서 제목 크기 조정 */
   @media ${props => props.theme.media.mobile} {
+    dsiplay: flex;
+    justify-content: space-between;
     font-size: 20px;
     padding: 0 24px;
     text-align: center;

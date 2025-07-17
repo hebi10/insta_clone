@@ -5,13 +5,13 @@ export const InboxContainer = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: 100dvh;
   background-color: #fff;
   
   /* 모바일에서는 전체 너비 사용 */
   @media ${props => props.theme.media.mobile} {
     max-width: 100%;
-    height: calc(100vh - 44px); /* 모바일 헤더 높이 제외 */
+    height: calc(100dvh - 44px); /* 모바일 헤더 높이 제외 */
   }
 `;
 

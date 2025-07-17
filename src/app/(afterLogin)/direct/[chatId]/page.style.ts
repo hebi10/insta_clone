@@ -5,7 +5,7 @@ export const ChatContainer = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 100dvh;
   background-color: #fff;
 `;
 

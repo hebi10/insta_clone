@@ -4,7 +4,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   width: 100%;
-  min-height: 100vh;
+  min-height: 100dvh;
   box-sizing: border-box;
   
   /* 모바일에서는 전체 너비 사용 */
@@ -29,9 +29,10 @@ export const Main = styled.div`
     padding-left: 72px;
   }
   
-  /* 모바일에서는 사이드바 여백 없음 */
+  /* 모바일에서는 사이드바 여백 없음 + 하단 탭바 여백 */
   @media ${props => props.theme.media.mobile} {
     padding-left: 0;
+    padding-bottom: 60px; /* 하단 탭바 공간 확보 */
     width: 100%;
     max-width: 100%;
   }
@@ -39,16 +40,23 @@ export const Main = styled.div`
 
 export const LeftArea = styled.div`
   width: 220px;
-  border-right: 1px solid #dbdbdb;
-  height: 100vh;
+  height: 100dvh;
   position: fixed;
   top: 0;
   left: 0;
   z-index: 100;
   
-  /* 모바일에서는 숨김 */
-  @media ${props => props.theme.media.mobile} {
-    display: none;
+  /* 태블릿 사이즈 */
+  @media ${props => props.theme.media.tablet} {
+    width: 71px;
+  }
+
+  /* 태블릿 + 모바일 (1023px 이하 전체) */
+  @media (max-width: 1023px) {
+    top: auto;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
   }
 `;
 
@@ -77,7 +85,7 @@ export const LeftList = styled.div`
   flex: 1;
   padding: 20px 0;
   box-sizing: border-box;
-  min-height: 100vh;
+  min-height: 100dvh;
   max-width: ${props => props.theme.instagram.postWidth};
   
   /* 모바일에서는 전체 너비 */

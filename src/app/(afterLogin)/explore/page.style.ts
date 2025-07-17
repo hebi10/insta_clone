@@ -5,7 +5,7 @@ export const ExploreContainer = styled.div`
   margin: 0 auto;
   padding: 30px 20px;
   background-color: #fff;
-  min-height: 100vh;
+  min-height: 100dvh;
   
   /* 태블릿에서 패딩 조정 */
   @media ${props => props.theme.media.tablet} {
@@ -17,7 +17,7 @@ export const ExploreContainer = styled.div`
   @media ${props => props.theme.media.mobile} {
     padding: 16px 4px;
     max-width: 100%;
-    min-height: calc(100vh - 44px); /* 모바일 헤더 제외 */
+    min-height: calc(100dvh - 44px); /* 모바일 헤더 제외 */
   }
 `;
 

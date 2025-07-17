@@ -12,6 +12,7 @@ import {
   SearchInput,
   SearchIcon,
   ClearButton,
+  MobileCloseButton,
   SearchContent,
   RecentSection,
   SectionHeader,
@@ -112,7 +113,12 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     <SearchModalOverlay isOpen={isOpen} onClick={onClose}>
       <SearchModalContainer isOpen={isOpen} onClick={(e) => e.stopPropagation()}>
         <SearchModalHeader>
-          <SearchTitle>검색</SearchTitle>
+          <SearchTitle>
+            검색
+            <MobileCloseButton onClick={onClose}>
+              <FiX />
+            </MobileCloseButton>
+          </SearchTitle>
           <SearchInputContainer>
             <SearchIcon>
               <FiSearch />

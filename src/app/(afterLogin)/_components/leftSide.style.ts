@@ -6,7 +6,7 @@ export const NavWrap = styled.nav.withConfig({
   display: flex;
   flex-direction: column;
   padding: 32px 12px 20px 12px;
-  height: 100vh;
+  height: 100dvh;
   box-sizing: border-box;
   background-color: #ffffff;
   border-right: 1px solid #dbdbdb;
@@ -22,21 +22,24 @@ export const NavWrap = styled.nav.withConfig({
   
   /* 모바일에서는 하단 탭바로 변경 */
   @media ${props => props.theme.media.mobile} {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: auto;
-    height: 60px;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 8px 16px;
-    border-right: none;
-    border-top: 1px solid #dbdbdb;
-    background-color: white;
-    z-index: 100;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    top: auto !important;
+    height: 50px !important;
+    width: 100% !important;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding: 0 !important;
+    border-right: none !important;
+    border-top: 1px solid #dbdbdb !important;
+    background-color: white !important;
+    z-index: 1000 !important;
+    box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1) !important;
+    display: flex !important;
+  }
   }
 `;
 
@@ -84,12 +87,14 @@ export const NavList = styled.ul`
   
   /* 모바일에서는 가로 배치 */
   @media ${props => props.theme.media.mobile} {
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    gap: 0;
-    flex-grow: 0;
-    width: 100%;
+    flex-direction: row !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    gap: 0 !important;
+    flex-grow: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    display: flex !important;
   }
 `;
 
@@ -123,6 +128,12 @@ export const NavItem = styled.li.withConfig({
       height: 24px;
       stroke-width: 1.5;
       flex-shrink: 0;
+      
+      /* 모바일에서는 조금 더 크게 */
+      @media ${props => props.theme.media.mobile} {
+        width: 26px;
+        height: 26px;
+      }
     }
     
     span {
@@ -135,7 +146,7 @@ export const NavItem = styled.li.withConfig({
       
       /* 태블릿에서는 텍스트 숨김 */
       @media ${props => props.theme.media.tablet} {
-        opacity: 0;
+        display: none;
       }
       
       /* 모바일에서는 텍스트 숨김 */
@@ -153,10 +164,12 @@ export const NavItem = styled.li.withConfig({
     
     @media ${props => props.theme.media.mobile} {
       gap: 0;
-      padding: 8px;
+      padding: 0;
       justify-content: center;
-      min-width: 44px;
-      height: 44px;
+      min-width: auto;
+      height: 50px;
+      width: auto;
+      flex: 1;
       
       &:hover {
         background-color: transparent;
@@ -217,6 +230,12 @@ export const Avatar = styled.img`
   height: 24px;
   border-radius: 50%;
   object-fit: cover;
+  
+  /* 모바일에서는 조금 더 크게 */
+  @media ${props => props.theme.media.mobile} {
+    width: 28px;
+    height: 28px;
+  }
 `;
 
 export const MenuToggle = styled.div.withConfig({

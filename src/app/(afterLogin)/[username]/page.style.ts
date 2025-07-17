@@ -5,7 +5,7 @@ export const ProfileContainer = styled.div`
   margin: 0 auto;
   padding: 30px 20px;
   background-color: #fff;
-  min-height: 100vh;
+  min-height: 100dvh;
 `;
 
 export const ProfileHeader = styled.div`

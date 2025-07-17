@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReels } from '@/app/api/query';
 import {
+  ReelsPageWrapper,
   ReelsContainer,
   ReelItem,
   ReelVideo,
@@ -74,14 +75,17 @@ export default function ReelsPage() {
 
   if (isLoading) {
     return (
-      <ReelsContainer>
-        <LoadingReel>릴스를 불러오는 중...</LoadingReel>
-      </ReelsContainer>
+      <ReelsPageWrapper>
+        <ReelsContainer>
+          <LoadingReel>릴스를 불러오는 중...</LoadingReel>
+        </ReelsContainer>
+      </ReelsPageWrapper>
     );
   }
 
   return (
-    <ReelsContainer>
+    <ReelsPageWrapper>
+      <ReelsContainer>
       {displayReels.map((reel) => (
         <ReelItem key={reel.id}>
           <ReelPlaceholder>
@@ -135,5 +139,6 @@ export default function ReelsPage() {
         </ReelItem>
       ))}
     </ReelsContainer>
+    </ReelsPageWrapper>
   );
 }

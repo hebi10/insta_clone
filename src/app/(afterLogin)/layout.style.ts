@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
   width: 100%;
-  height: 100vh;
+  height: 100dvh;
   box-sizing: border-box;
   
   /* 태블릿 이하에서는 사이드바 숨기기 */
@@ -13,7 +13,7 @@ export const Container = styled.div`
 `;
 
 export const LeftArea = styled.div`
-  height: 100vh;
+  height: 100dvh;
   position: fixed;
   top: 0;
   left: 0;
@@ -26,10 +26,11 @@ export const LeftArea = styled.div`
     left: 0;
     right: 0;
     top: auto;
-    height: 60px;
+    height: 50px;
     width: 100%;
-    background-color: rgb(${props => props.theme.colors.igWhite});
-    border-top: 1px solid rgb(${props => props.theme.colors.igStroke});
+    z-index: 1000;
+    background-color: transparent; /* LeftSide 컴포넌트에서 관리 */
+    border: none; /* LeftSide 컴포넌트에서 관리 */
   }
   
   /* 태블릿에서는 좁은 사이드바 */
