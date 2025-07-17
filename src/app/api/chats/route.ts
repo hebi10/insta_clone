@@ -6,8 +6,8 @@ export async function GET() {
     const chats = Array.from({ length: 10 }, () => ({
       id: faker.string.uuid(),
       username: faker.internet.userName(),
-      fullName: faker.person.fullName(),
-      avatarUrl: faker.image.avatar(),
+      name: faker.person.fullName(),
+      avatar: faker.image.avatar(),
       lastMessage: faker.lorem.sentence(),
       timestamp: faker.date.recent({ days: 3 }).toISOString(),
       isOnline: faker.datatype.boolean(),

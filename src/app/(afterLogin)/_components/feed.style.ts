@@ -4,10 +4,25 @@ export const FeedWrapper = styled.article`
   border: 1px solid #dbdbdb;
   border-radius: 8px;
   margin-bottom: 20px;
-  max-width: 470px;
+  max-width: 600px;
   width: 100%;
   background-color: #ffffff;
   overflow: hidden;
+  
+  /* 모바일에서는 전체 너비 사용 및 테두리 제거 */
+  @media ${props => props.theme.media.mobile} {
+    max-width: 100%;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+    border-bottom: 8px solid #f7f7f7;
+    margin-bottom: 0;
+  }
+  
+  /* 태블릿에서는 약간 더 넓게 */
+  @media ${props => props.theme.media.tablet} {
+    max-width: 100%;
+  }
 `;
 
 export const FeedHeader = styled.header`
@@ -16,6 +31,11 @@ export const FeedHeader = styled.header`
   justify-content: space-between;
   padding: 14px 16px;
   background-color: #ffffff;
+  
+  /* 모바일에서 패딩 조정 */
+  @media ${props => props.theme.media.mobile} {
+    padding: 12px 16px;
+  }
 `;
 
 export const FeedHeaderLeft = styled.div`
@@ -30,6 +50,12 @@ export const Avatar = styled.img`
   border-radius: 50%;
   object-fit: cover;
   cursor: pointer;
+  
+  /* 모바일에서 아바타 크기 조정 */
+  @media ${props => props.theme.media.mobile} {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 export const UserInfo = styled.div`
@@ -45,6 +71,11 @@ export const Username = styled.span`
   
   &:hover {
     text-decoration: underline;
+  }
+  
+  /* 모바일에서 폰트 크기 조정 */
+  @media ${props => props.theme.media.mobile} {
+    font-size: 13px;
   }
 `;
 

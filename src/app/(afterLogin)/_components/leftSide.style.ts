@@ -13,6 +13,31 @@ export const NavWrap = styled.nav.withConfig({
   width: ${props => props.isSearchMode ? '72px' : '220px'};
   transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   overflow: hidden;
+  
+  /* 태블릿에서는 항상 좁은 사이드바 */
+  @media ${props => props.theme.media.tablet} {
+    width: 72px;
+    padding: 32px 6px 20px 6px;
+  }
+  
+  /* 모바일에서는 하단 탭바로 변경 */
+  @media ${props => props.theme.media.mobile} {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    height: 60px;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 8px 16px;
+    border-right: none;
+    border-top: 1px solid #dbdbdb;
+    background-color: white;
+    z-index: 100;
+  }
 `;
 
 export const Logo = styled.div.withConfig({
@@ -35,6 +60,17 @@ export const Logo = styled.div.withConfig({
   transition: font-size 0.3s ease;
   white-space: nowrap;
   overflow: hidden;
+  
+  /* 태블릿에서는 로고 숨김 */
+  @media ${props => props.theme.media.tablet} {
+    font-size: 0px;
+    padding: 12px 6px 24px 6px;
+  }
+  
+  /* 모바일에서는 로고 완전 숨김 */
+  @media ${props => props.theme.media.mobile} {
+    display: none;
+  }
 `;
 
 export const NavList = styled.ul`
@@ -45,6 +81,16 @@ export const NavList = styled.ul`
   list-style: none;
   padding: 0;
   margin: 0;
+  
+  /* 모바일에서는 가로 배치 */
+  @media ${props => props.theme.media.mobile} {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 0;
+    flex-grow: 0;
+    width: 100%;
+  }
 `;
 
 export const NavItem = styled.li.withConfig({
@@ -86,6 +132,35 @@ export const NavItem = styled.li.withConfig({
       transition: opacity 0.2s ease;
       white-space: nowrap;
       overflow: hidden;
+      
+      /* 태블릿에서는 텍스트 숨김 */
+      @media ${props => props.theme.media.tablet} {
+        opacity: 0;
+      }
+      
+      /* 모바일에서는 텍스트 숨김 */
+      @media ${props => props.theme.media.mobile} {
+        display: none;
+      }
+    }
+    
+    /* 태블릿 및 모바일에서 아이콘만 표시 */
+    @media ${props => props.theme.media.tablet} {
+      gap: 0;
+      padding: 12px 6px;
+      justify-content: center;
+    }
+    
+    @media ${props => props.theme.media.mobile} {
+      gap: 0;
+      padding: 8px;
+      justify-content: center;
+      min-width: 44px;
+      height: 44px;
+      
+      &:hover {
+        background-color: transparent;
+      }
     }
   }
   
@@ -94,6 +169,13 @@ export const NavItem = styled.li.withConfig({
     
     svg {
       stroke-width: 2.5;
+    }
+  }
+  
+  /* 모바일에서 특정 네비게이션 아이템 숨김 */
+  &.hide-mobile {
+    @media ${props => props.theme.media.mobile} {
+      display: none;
     }
   }
 `;
@@ -108,6 +190,25 @@ export const ProfileNavItem = styled(NavItem)`
     &:hover {
       background-color: #fafafa;
     }
+    
+    @media ${props => props.theme.media.tablet} {
+      padding: 12px 6px;
+      justify-content: center;
+    }
+    
+    @media ${props => props.theme.media.mobile} {
+      padding: 8px;
+      margin: 0;
+      
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+  
+  /* 모바일에서는 자동 마진 제거 */
+  @media ${props => props.theme.media.mobile} {
+    margin-top: 0;
   }
 `;
 
@@ -152,6 +253,35 @@ export const MenuToggle = styled.div.withConfig({
       transition: opacity 0.2s ease;
       white-space: nowrap;
       overflow: hidden;
+      
+      @media ${props => props.theme.media.tablet} {
+        opacity: 0;
+      }
+      
+      @media ${props => props.theme.media.mobile} {
+        display: none;
+      }
     }
+    
+    @media ${props => props.theme.media.tablet} {
+      gap: 0;
+      padding: 12px 6px;
+      justify-content: center;
+    }
+    
+    @media ${props => props.theme.media.mobile} {
+      gap: 0;
+      padding: 8px;
+      justify-content: center;
+      
+      &:hover {
+        background-color: transparent;
+      }
+    }
+  }
+  
+  /* 모바일에서는 메뉴 숨김 */
+  @media ${props => props.theme.media.mobile} {
+    display: none;
   }
 `;

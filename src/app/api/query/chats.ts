@@ -4,7 +4,14 @@ export async function fetchChats() {
   const response = await fetch('/api/chats');
   if (!response.ok) throw new Error('Failed to fetch chats');
   const data = await response.json();
-  return data.chats ?? [];
+  
+  // timestamp를 Date 객체로 변환
+  const chats = (data.chats ?? []).map((chat: any) => ({
+    ...chat,
+    timestamp: new Date(chat.timestamp)
+  }));
+  
+  return chats;
 }
 
 export async function fetchChatDetails(chatId: string) {

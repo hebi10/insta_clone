@@ -74,6 +74,54 @@ const GlobalStyle = createGlobalStyle`
   input:focus {
     outline: none;
   }
+
+  /* 반응형 기본 설정 */
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    font-size: 16px;
+    
+    @media (max-width: 768px) {
+      font-size: 14px;
+    }
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: rgb(${props => props.theme?.colors?.igWhite || '255, 255, 255'});
+    color: rgb(${props => props.theme?.colors?.igBlack || '0, 0, 0'});
+    line-height: 1.4;
+    
+    /* 모바일에서 가로 스크롤 방지 */
+    overflow-x: hidden;
+  }
+
+  /* 컨테이너 반응형 설정 */
+  .container {
+    width: 100%;
+    max-width: ${props => props.theme?.instagram?.maxWidth || '935px'};
+    margin: 0 auto;
+    padding: 0 16px;
+    
+    @media (max-width: 768px) {
+      padding: 0 8px;
+    }
+  }
+
+  /* 텍스트 반응형 */
+  .responsive-text {
+    font-size: 1rem;
+    
+    @media (max-width: 768px) {
+      font-size: 0.9rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 0.8rem;
+    }
+  }
 `;
 
 export default GlobalStyle;

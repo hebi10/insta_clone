@@ -26,7 +26,7 @@ interface Chat {
   username: string;
   avatar: string;
   lastMessage: string;
-  timestamp: Date;
+  timestamp: Date | string;
   unreadCount: number;
   isOnline: boolean;
 }
@@ -37,9 +37,17 @@ export default function InboxPage() {
     queryFn: fetchChats
   });
 
-  const formatTime = (date: Date) => {
+  const formatTime = (date: Date | string) => {
+    // Date 객체가 아닌 경우 문자열에서 Date 객체로 변환
+    const dateObj = date instanceof Date ? date : new Date(date);
+    
+    // 유효한 날짜인지 확인
+    if (isNaN(dateObj.getTime())) {
+      return '알 수 없음';
+    }
+    
     const now = new Date();
-    const diff = now.getTime() - date.getTime();
+    const diff = now.getTime() - dateObj.getTime();
     const minutes = Math.floor(diff / (1000 * 60));
     const hours = Math.floor(diff / (1000 * 60 * 60));
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));

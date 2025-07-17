@@ -6,10 +6,29 @@ export const ExploreContainer = styled.div`
   padding: 30px 20px;
   background-color: #fff;
   min-height: 100vh;
+  
+  /* 태블릿에서 패딩 조정 */
+  @media ${props => props.theme.media.tablet} {
+    padding: 20px 16px;
+    max-width: 100%;
+  }
+  
+  /* 모바일에서는 전체 너비 사용 */
+  @media ${props => props.theme.media.mobile} {
+    padding: 16px 4px;
+    max-width: 100%;
+    min-height: calc(100vh - 44px); /* 모바일 헤더 제외 */
+  }
 `;
 
 export const ExploreHeader = styled.div`
   margin-bottom: 28px;
+  
+  /* 모바일에서 마진 조정 */
+  @media ${props => props.theme.media.mobile} {
+    margin-bottom: 20px;
+    padding: 0 12px;
+  }
 `;
 
 export const ExploreTitle = styled.h1`
@@ -18,12 +37,23 @@ export const ExploreTitle = styled.h1`
   color: #262626;
   margin: 0;
   margin-bottom: 8px;
+  
+  /* 모바일에서 제목 크기 조정 */
+  @media ${props => props.theme.media.mobile} {
+    font-size: 20px;
+    margin-bottom: 6px;
+  }
 `;
 
 export const ExploreSubtitle = styled.p`
   font-size: 14px;
   color: #8e8e8e;
   margin: 0;
+  
+  /* 모바일에서 폰트 크기 조정 */
+  @media ${props => props.theme.media.mobile} {
+    font-size: 13px;
+  }
 `;
 
 export const ExploreGrid = styled.div`
@@ -31,8 +61,14 @@ export const ExploreGrid = styled.div`
   grid-template-columns: repeat(3, 1fr);
   gap: 3px;
   
-  @media (max-width: 768px) {
+  /* 태블릿에서 간격 조정 */
+  @media ${props => props.theme.media.tablet} {
     gap: 2px;
+  }
+  
+  /* 모바일에서 간격 최소화 */
+  @media ${props => props.theme.media.mobile} {
+    gap: 1px;
   }
 `;
 
@@ -44,6 +80,17 @@ export const ExploreItem = styled.div`
   
   &:hover .overlay {
     opacity: 1;
+  }
+  
+  /* 모바일에서 호버 효과 제거 */
+  @media ${props => props.theme.media.mobile} {
+    &:hover .overlay {
+      opacity: 0;
+    }
+    
+    &:active .overlay {
+      opacity: 1;
+    }
   }
 `;
 

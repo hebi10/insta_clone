@@ -5,8 +5,14 @@ export const InboxContainer = styled.div`
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100vh;
   background-color: #fff;
+  
+  /* 모바일에서는 전체 너비 사용 */
+  @media ${props => props.theme.media.mobile} {
+    max-width: 100%;
+    height: calc(100vh - 44px); /* 모바일 헤더 높이 제외 */
+  }
 `;
 
 export const InboxHeader = styled.div`
@@ -16,6 +22,14 @@ export const InboxHeader = styled.div`
   padding: 16px 24px;
   border-bottom: 1px solid #dbdbdb;
   background-color: #fff;
+  
+  /* 모바일에서 패딩 조정 */
+  @media ${props => props.theme.media.mobile} {
+    padding: 12px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
 `;
 
 export const InboxTitle = styled.h1`
@@ -23,6 +37,11 @@ export const InboxTitle = styled.h1`
   font-weight: 600;
   color: #262626;
   margin: 0;
+  
+  /* 모바일에서 제목 크기 조정 */
+  @media ${props => props.theme.media.mobile} {
+    font-size: 20px;
+  }
 `;
 
 export const NewMessageButton = styled.button`

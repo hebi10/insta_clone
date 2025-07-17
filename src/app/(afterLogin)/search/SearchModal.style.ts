@@ -12,6 +12,13 @@ export const SearchModalOverlay = styled.div<{ isOpen: boolean }>`
   align-items: flex-start;
   justify-content: flex-start;
   pointer-events: ${props => props.isOpen ? 'all' : 'none'};
+  
+  /* 모바일에서는 전체 화면 모달 */
+  @media ${props => props.theme.media.mobile} {
+    background-color: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export const SearchModalContainer = styled.div<{ isOpen: boolean }>`
@@ -31,12 +38,55 @@ export const SearchModalContainer = styled.div<{ isOpen: boolean }>`
   /* 슬라이드 애니메이션 */
   transform: translateX(${props => props.isOpen ? '0' : '-100%'});
   transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  
+  /* 태블릿에서는 전체 너비의 50% */
+  @media ${props => props.theme.media.tablet} {
+    width: 50vw;
+    min-width: 320px;
+    max-width: 400px;
+  }
+  
+  /* 모바일에서는 전체 화면 모달 */
+  @media ${props => props.theme.media.mobile} {
+    position: static;
+    width: 90vw;
+    max-width: 400px;
+    height: 80vh;
+    border-radius: 16px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.15);
+    transform: translateY(${props => props.isOpen ? '0' : '100%'});
+    transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
 `;
 
 export const SearchModalHeader = styled.div`
   padding: 12px 0 8px 0;
   border-bottom: 1px solid #dbdbdb;
   position: relative;
+  
+  /* 모바일에서 헤더 스타일 조정 */
+  @media ${props => props.theme.media.mobile} {
+    padding: 16px 0 12px 0;
+    position: relative;
+    
+    /* 닫기 버튼 추가를 위한 공간 */
+    &::after {
+      content: '×';
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 24px;
+      font-weight: 300;
+      color: #8e8e8e;
+      cursor: pointer;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  }
 `;
 
 export const SearchTitle = styled.h2`
@@ -45,6 +95,13 @@ export const SearchTitle = styled.h2`
   color: #262626;
   margin: 0;
   padding: 20px 24px 16px 24px;
+  
+  /* 모바일에서 제목 크기 조정 */
+  @media ${props => props.theme.media.mobile} {
+    font-size: 20px;
+    padding: 0 24px;
+    text-align: center;
+  }
 `;
 
 export const SearchInputContainer = styled.div`
