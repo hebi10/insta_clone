@@ -8,6 +8,7 @@ export const {
   signIn,
 } = NextAuth({
   trustHost: true,
+  secret: process.env.AUTH_SECRET,
   providers: [
     CredentialsProvider({
       name: "credentials",
@@ -20,55 +21,42 @@ export const {
           return null;
         }
         
-        // 개발 환경에서는 Mock 데이터로 직접 검증
-        if (process.env.NODE_ENV === 'development') {
-          const mockUser = {
+        // Mock 사용자로 직접 검증 (개발/프로덕션 모두)
+        const mockUsers = [
+          {
             id: 'test@test.com',
-            email: 'test@test.com', 
+            email: 'test@test.com',
+            username: 'testuser',
             password: '1234',
-            username: 'mockuser'
-          };
-          
-          if (credentials.username === mockUser.id && credentials.password === mockUser.password) {
-            return {
-              id: mockUser.id,
-              name: mockUser.username,
-              email: mockUser.email,
-              image: faker.image.avatar(),
-            };
-          }
-          return null;
-        }
-        
-        // 프로덕션 환경에서는 실제 API 호출
-        const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? "http://localhost:3000";
-        const loginUrl = `${baseUrl}/api/login`;
-        
-        try {
-          const authResponse = await fetch(loginUrl, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              id: credentials.username,
-              password: credentials.password,
-            }),
-          });
+          },
+          {
+            id: 'admin@admin.com',
+            email: 'admin@admin.com',
+            username: 'admin',
+            password: 'admin',
+          },
+          {
+            id: 'user@user.com',
+            email: 'user@user.com',
+            username: 'user',
+            password: 'user',
+          },
+        ];
 
-          if (!authResponse.ok) {
-            return null;
-          }
+        const mockUser = mockUsers.find(u => 
+          u.id === credentials.username && u.password === credentials.password
+        );
 
-          const user = await authResponse.json();
-          
+        if (mockUser) {
           return {
-            id: user.id,
-            name: user.username || user.id,
-            email: user.email || user.id,
-            image: user.avatarUrl || faker.image.avatar(),
+            id: mockUser.id,
+            name: mockUser.username,
+            email: mockUser.email,
+            image: faker.image.avatar(),
           };
-        } catch (error) {
-          return null;
         }
+
+        return null;
       }
     }),
   ],
