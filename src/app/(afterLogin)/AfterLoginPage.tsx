@@ -21,16 +21,48 @@ interface Post {
 
 export default function AfterLoginPage() {
   // NextAuth 쿠키에서 세션 데이터 가져오기
-  const { data: session, status } = useSession();
+  const { data: session } = useSession();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
 
   const handleSearchModalOpen = () => setIsSearchModalOpen(true);
   const handleSearchModalClose = () => setIsSearchModalOpen(false);
 
-  const { data: posts = [] } = useQuery<Post[]>({
+  const { data: posts = [], isLoading } = useQuery<Post[]>({
     queryKey: ['posts'],
     queryFn: fetchPosts,
   });
+
+  // 초기 로딩만 표시 (백그라운드 fetching은 무시)
+  if (isLoading && posts.length === 0) {
+    return (
+      <Main>
+        <LeftArea>
+          <LeftSide 
+            session={session} 
+            isSearchModalOpen={isSearchModalOpen}
+            onSearchModalOpen={handleSearchModalOpen}
+            onSearchModalClose={handleSearchModalClose}
+          />
+        </LeftArea>
+        <ContentArea>
+          <LeftList>
+            <div style={{ 
+              display: 'flex', 
+              justifyContent: 'center', 
+              alignItems: 'center', 
+              height: '200px',
+              color: '#8e8e8e'
+            }}>
+              게시물을 불러오는 중...
+            </div>
+          </LeftList>
+          <RightArea>
+            <MySide session={session} />
+          </RightArea>
+        </ContentArea>
+      </Main>
+    );
+  }
 
   return (
     <Main>

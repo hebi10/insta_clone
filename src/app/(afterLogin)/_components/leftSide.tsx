@@ -75,6 +75,17 @@ export default function LeftSide({
     }
   };
 
+  // 현재 페이지와 같은 경로로 이동하는 것을 방지하는 헬퍼 함수
+  const handleNavigation = (href: string, e: React.MouseEvent) => {
+    if (pathname === href) {
+      e.preventDefault();
+      // 현재 페이지임을 시각적으로 표시 (옵션)
+      console.log('이미 현재 페이지입니다:', href);
+      return false;
+    }
+    return true;
+  };
+
   // 모바일용 네비게이션 아이템들 (Instagram 하단 탭바와 동일)
   const mobileNavItems = [
     { href: '/', icon: FiHome, active: isActive('/') },
@@ -100,7 +111,7 @@ export default function LeftSide({
     <NavWrap isSearchMode={searchModalOpen}>
       {/* 인스타그램 로고 (데스크톱/태블릿만) */}
       <Logo isSearchMode={searchModalOpen}>
-        <Link href="/">Instagram</Link>
+        <Link href="/" onClick={(e) => handleNavigation('/', e)}>Instagram</Link>
       </Logo>
 
       {/* 메인 네비게이션 */}
@@ -126,14 +137,14 @@ export default function LeftSide({
                   {item.icon && <item.icon />}
                 </button>
               ) : item.isProfile ? (
-                <Link href={item.href}>
+                <Link href={item.href} onClick={(e) => handleNavigation(item.href, e)}>
                   <Avatar 
                     src={session?.user?.image || '/images/default-avatar.png'} 
                     alt={`${session?.user?.name || 'User'}님의 프로필 사진`} 
                   />
                 </Link>
               ) : (
-                <Link href={item.href}>
+                <Link href={item.href} onClick={(e) => handleNavigation(item.href, e)}>
                   {item.icon && <item.icon />}
                 </Link>
               )}
@@ -163,7 +174,7 @@ export default function LeftSide({
                   <span>{item.label}</span>
                 </button>
               ) : item.isProfile ? (
-                <Link href={item.href}>
+                <Link href={item.href} onClick={(e) => handleNavigation(item.href, e)}>
                   <Avatar 
                     src={session?.user?.image || '/images/default-avatar.png'} 
                     alt={`${session?.user?.name || 'User'}님의 프로필 사진`} 
@@ -171,7 +182,7 @@ export default function LeftSide({
                   <span>{item.label}</span>
                 </Link>
               ) : (
-                <Link href={item.href}>
+                <Link href={item.href} onClick={(e) => handleNavigation(item.href, e)}>
                   {item.icon && <item.icon />}
                   <span>{item.label}</span>
                 </Link>
