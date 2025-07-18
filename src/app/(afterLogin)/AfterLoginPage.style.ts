@@ -53,10 +53,7 @@ export const LeftArea = styled.div`
 
   /* 태블릿 + 모바일 (1023px 이하 전체) */
   @media (max-width: 1023px) {
-    top: auto;
-    bottom: 0;
-    width: 100%;
-    height: 50px;
+  border-right: 0;
   }
 `;
 
