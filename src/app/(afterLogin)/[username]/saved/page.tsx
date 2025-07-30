@@ -32,7 +32,9 @@ export default function SavedPage({ params }: Props) {
 
   const { data: fetchedPosts = [], isLoading } = useQuery({
     queryKey: ['savedPosts', resolvedParams.username],
-    queryFn: () => fetchUserSavedPosts(resolvedParams.username)
+    queryFn: () => fetchUserSavedPosts(resolvedParams.username),
+    staleTime: 1000 * 10, 
+    gcTime: 1000 * 60 * 10, 
   });
 
   useEffect(() => {

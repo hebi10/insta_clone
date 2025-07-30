@@ -32,7 +32,9 @@ export default function TaggedPage({ params }: Props) {
 
   const { data: fetchedPosts = [], isLoading } = useQuery({
     queryKey: ['taggedPosts', resolvedParams.username],
-    queryFn: () => fetchUserTaggedPosts(resolvedParams.username)
+    queryFn: () => fetchUserTaggedPosts(resolvedParams.username),
+    staleTime: 1000 * 10, 
+    gcTime: 1000 * 60 * 10, 
   });
 
   useEffect(() => {

@@ -32,6 +32,8 @@ export default function ExplorePage() {
   const { data: fetchedPosts = [], isLoading } = useQuery<ExplorePost[]>({
     queryKey: ['explore'],
     queryFn: fetchExploreContent,
+    staleTime: 1000 * 10, 
+    gcTime: 1000 * 60 * 10, 
   });
 
   useEffect(() => {

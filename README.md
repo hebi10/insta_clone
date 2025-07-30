@@ -134,6 +134,8 @@ const result = await signIn('credentials', {
 const { data: posts = [] } = useQuery<Post[]>({
   queryKey: ['posts'],
   queryFn: fetchPosts,
+    staleTime: 1000 * 10, 
+    gcTime: 1000 * 60 * 10, 
 });
 ```
 

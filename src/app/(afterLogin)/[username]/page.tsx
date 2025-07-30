@@ -63,12 +63,16 @@ export default function ProfilePage({ params }: Props) {
 
   const { data: profileData, isLoading: profileLoading } = useQuery({
     queryKey: ['profile', resolvedParams.username],
-    queryFn: () => fetchUserProfile(resolvedParams.username)
+    queryFn: () => fetchUserProfile(resolvedParams.username),
+    staleTime: 1000 * 10, 
+    gcTime: 1000 * 60 * 10, 
   });
 
   const { data: posts = [], isLoading: postsLoading } = useQuery({
     queryKey: ['userPosts', resolvedParams.username],
-    queryFn: () => fetchUserPosts(resolvedParams.username)
+    queryFn: () => fetchUserPosts(resolvedParams.username),
+    staleTime: 1000 * 10, 
+    gcTime: 1000 * 60 * 10, 
   });
 
   const isLoading = profileLoading || postsLoading;

@@ -39,6 +39,8 @@ export default function ReelsPage() {
   const { data: fetchedReels = [], isLoading } = useQuery<Reel[]>({
     queryKey: ['reels'],
     queryFn: fetchReels,
+    staleTime: 1000 * 10, 
+    gcTime: 1000 * 60 * 10, 
   });
 
   useEffect(() => {

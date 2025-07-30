@@ -34,7 +34,9 @@ interface Chat {
 export default function InboxPage() {
   const { data: chats = [], isLoading } = useQuery<Chat[]>({
     queryKey: ['chats'],
-    queryFn: fetchChats
+    queryFn: fetchChats,
+    staleTime: 1000 * 10, 
+    gcTime: 1000 * 60 * 10, 
   });
 
   const formatTime = (date: Date | string) => {

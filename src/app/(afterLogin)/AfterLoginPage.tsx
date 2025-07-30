@@ -30,6 +30,8 @@ export default function AfterLoginPage() {
   const { data: posts = [], isLoading } = useQuery<Post[]>({
     queryKey: ['posts'],
     queryFn: fetchPosts,
+    staleTime: 1000 * 10, 
+    gcTime: 1000 * 60 * 10, 
   });
 
   // 초기 로딩만 표시 (백그라운드 fetching은 무시)
