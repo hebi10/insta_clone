@@ -5,7 +5,7 @@ export async function GET() {
   try {
     const chats = Array.from({ length: 10 }, () => ({
       id: faker.string.uuid(),
-      username: faker.internet.userName(),
+      username: faker.internet.username(),
       name: faker.person.fullName(),
       avatar: faker.image.avatar(),
       lastMessage: faker.lorem.sentence(),

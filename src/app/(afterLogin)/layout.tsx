@@ -10,9 +10,10 @@ import Image from "next/image";
 interface RootLayoutProps {
   children: React.ReactNode;
   modal: React.ReactNode;
+  create: React.ReactNode;
 }
 
-export default function RootLayout({ children, modal }: RootLayoutProps) {
+export default function RootLayout({ children, modal, create }: RootLayoutProps) {
   const { data: session } = useSession();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -85,6 +86,8 @@ export default function RootLayout({ children, modal }: RootLayoutProps) {
       />
       
       {modal}
+
+      {create}
     </Container>
   );
 }

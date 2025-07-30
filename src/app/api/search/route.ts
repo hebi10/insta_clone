@@ -9,7 +9,7 @@ export async function GET(request: Request) {
     // 검색 결과 시뮬레이션
     const users = Array.from({ length: 10 }, () => ({
       id: faker.string.uuid(),
-      username: query ? `${query}_${faker.internet.userName()}` : faker.internet.userName(),
+      username: query ? `${query}_${faker.internet.username()}` : faker.internet.username(),
       fullName: faker.person.fullName(),
       avatar: faker.image.avatar(),
       isVerified: faker.datatype.boolean(),

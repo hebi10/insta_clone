@@ -6,7 +6,7 @@ export async function GET() {
     const notifications = Array.from({ length: 25 }, () => ({
       id: faker.string.uuid(),
       type: faker.helpers.arrayElement(['like', 'follow', 'comment', 'mention']),
-      username: faker.internet.userName(),
+      username: faker.internet.username(),
       avatarUrl: faker.image.avatar(),
       message: getNotificationMessage(),
       timestamp: faker.date.recent({ days: 7 }).toISOString(),

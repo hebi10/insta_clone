@@ -40,6 +40,8 @@ export default function NotificationsPage() {
   const { data: fetchedNotifications = [], isLoading } = useQuery<Notification[]>({
     queryKey: ['notifications'],
     queryFn: fetchNotifications,
+    staleTime: 1000 * 10,
+    gcTime: 1000 * 60 * 10,
   });
 
   useEffect(() => {
@@ -176,6 +178,10 @@ export default function NotificationsPage() {
                   </NotificationTime>
                 </NotificationContent>
 
+                {notification.postImageUrl && (
+                  <NotificationMedia src={notification.postImageUrl} alt="게시물" />
+                )}
+
                 {notification.type === 'follow' && (
                   <FollowButton
                     isFollowing={notification.isFollowing}
@@ -186,10 +192,6 @@ export default function NotificationsPage() {
                   >
                     {notification.isFollowing ? '팔로잉' : '팔로우'}
                   </FollowButton>
-                )}
-
-                {notification.postImageUrl && (
-                  <NotificationMedia src={notification.postImageUrl} alt="게시물" />
                 )}
               </NotificationItem>
             ))}

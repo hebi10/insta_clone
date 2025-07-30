@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   CreateModalOverlay,
@@ -159,6 +159,10 @@ export default function CreateModal({ params, searchParams }: CreateModalProps) 
       handleClose();
     }
   };
+
+  useEffect(() => {
+    console.log("실행되는지 테스트, 만들기 모달 O");
+  }, []);
 
   return (
     <>

@@ -14,7 +14,7 @@ export function makeServer() {
     factories: {
       post: Factory.extend({
         username() {
-          return faker.internet.userName();
+          return faker.internet.username();
         },
         avatarUrl() {
           return faker.image.avatar();
@@ -34,7 +34,7 @@ export function makeServer() {
       }),
       user: Factory.extend({
         username() {
-          return faker.internet.userName();
+          return faker.internet.username();
         },
         fullName() {
           return faker.person.fullName();
@@ -66,7 +66,7 @@ export function makeServer() {
       }),
       reel: Factory.extend({
         username() {
-          return faker.internet.userName();
+          return faker.internet.username();
         },
         avatar() {
           return faker.image.avatar();
@@ -93,7 +93,7 @@ export function makeServer() {
           return faker.helpers.arrayElement(types);
         },
         username() {
-          return faker.internet.userName();
+          return faker.internet.username();
         },
         avatar() {
           return faker.image.avatar();
@@ -119,7 +119,7 @@ export function makeServer() {
           return faker.person.fullName();
         },
         username() {
-          return faker.internet.userName();
+          return faker.internet.username();
         },
         avatar() {
           return faker.image.avatar();
@@ -148,7 +148,7 @@ export function makeServer() {
           return faker.number.int({ min: 10, max: 500 });
         },
         username() {
-          return faker.internet.userName();
+          return faker.internet.username();
         },
       }),
     },
@@ -206,7 +206,7 @@ export function makeServer() {
         const user = {
           id: chatId,
           name: faker.person.fullName(),
-          username: faker.internet.userName(),
+          username: faker.internet.username(),
           avatar: faker.image.avatar(),
           isOnline: Math.random() > 0.5,
           lastSeen: faker.date.recent(),

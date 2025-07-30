@@ -6,7 +6,7 @@ export async function GET() {
     // 모든 게시물 가져오기
     const posts = Array.from({ length: 20 }, () => ({
       id: faker.string.uuid(),
-      username: faker.internet.userName(),
+      username: faker.internet.username(),
       avatarUrl: faker.image.avatar(),
       imageUrl: faker.image.urlPicsumPhotos({ width: 600, height: 400 }),
       description: faker.lorem.sentence(),
