@@ -1,12 +1,22 @@
 "use client";
 import { useSession } from "next-auth/react";
-import BeforeLoginPage from './(beforeLogin)/BeforeLoginPage';
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Loading, LoadingImage } from "./page.style";
 import Image from "next/image";
-import AfterLoginPage from "./(afterLogin)/AfterLoginPage";
 
 export default function Page() {
   const { data: session, status } = useSession();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (status === "loading") return;
+    if (session) {
+      router.replace("/");
+    } else {
+      router.replace("/login");
+    }
+  }, [session, status, router]);
 
   if (status === "loading") {
     return (
@@ -18,9 +28,6 @@ export default function Page() {
     );
   }
 
-  if (session) {
-    return <AfterLoginPage />;
-  }
-
-  return <BeforeLoginPage />;
+  // Redirecting
+  return null;
 }
