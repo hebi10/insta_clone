@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import BeforeLoginPage from './(beforeLogin)/BeforeLoginPage';
 import { Loading, LoadingImage } from "./page.style";
 import Image from "next/image";
-import AfterLoginPage from "./(afterLogin)/AfterLoginPage";
+import AfterLoginPage from "./(afterLogin)/page";
 
 export default function Page() {
   const { data: session, status } = useSession();

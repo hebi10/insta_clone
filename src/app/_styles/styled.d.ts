@@ -4,19 +4,10 @@ declare module 'styled-components' {
   export interface DefaultTheme {
     breakpoints: {
       xs: string;
-      sm: string;
       md: string;
       lg: string;
-      xl: string;
-      xxl: string;
     };
     media: {
-      xs: string;
-      sm: string;
-      md: string;
-      lg: string;
-      xl: string;
-      xxl: string;
       mobile: string;
       tablet: string;
       desktop: string;

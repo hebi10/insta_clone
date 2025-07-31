@@ -1,20 +1,11 @@
 export const theme = {
   breakpoints: {
     xs: "320px",    // Extra small devices
-    sm: "480px",    // Small devices
     md: "768px",    // Medium devices (tablets)
     lg: "1024px",   // Large devices
-    xl: "1264px",   // Extra large devices
-    xxl: "1400px",  // XXL devices
   },
   // 반응형 미디어 쿼리 헬퍼
   media: {
-    xs: "(max-width: 319px)",
-    sm: "(min-width: 320px) and (max-width: 479px)",
-    md: "(min-width: 480px) and (max-width: 767px)",
-    lg: "(min-width: 768px) and (max-width: 1023px)",
-    xl: "(min-width: 1024px) and (max-width: 1263px)",
-    xxl: "(min-width: 1264px)",
     mobile: "(max-width: 767px)",
     tablet: "(min-width: 768px) and (max-width: 1023px)",
     desktop: "(min-width: 1024px)",
