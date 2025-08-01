@@ -1,6 +1,5 @@
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
-import { faker } from '@faker-js/faker';
 
 export const {
   handlers: { GET, POST },
@@ -56,7 +55,7 @@ export const {
             id: mockUser.id,
             name: mockUser.username,
             email: mockUser.email,
-            image: faker.image.avatar(),
+            image: 'https://avatars.githubusercontent.com/u/defaultuser',
           };
         }
 
@@ -72,7 +71,15 @@ export const {
       return true;
     },
     async redirect({ url, baseUrl }) {
-      return baseUrl;
+      // 로그인 후에는 메인 페이지로 리다이렉트
+      if (url === baseUrl + '/login' || url === baseUrl || url === baseUrl + '/') {
+        return baseUrl + '/';
+      }
+      // 다른 URL이 지정된 경우 해당 URL로 이동
+      if (url.startsWith(baseUrl)) {
+        return url;
+      }
+      return baseUrl + '/';
     },
     async session({ session, user, token }) {
       return session;

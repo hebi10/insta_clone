@@ -1,4 +1,3 @@
-import { faker } from "@faker-js/faker";
 import { Session } from "next-auth";
 import {
   MySideContainer,
@@ -27,11 +26,11 @@ interface MySideProps {
 
 export default function MySide({ session }: MySideProps) {
   const suggestions = [
-    { id: 1, name: "coding_guru", description: "회원님을 위한 추천", avatar: faker.image.avatar() },
-    { id: 2, name: "design_master", description: "Instagram 신규 가입", avatar: faker.image.avatar() },
-    { id: 3, name: "tech_lover", description: "회원님을 위한 추천", avatar: faker.image.avatar() },
-    { id: 4, name: "creative_mind", description: "Instagram 신규 가입", avatar: faker.image.avatar() },
-    { id: 5, name: "art_enthusiast", description: "회원님을 위한 추천", avatar: faker.image.avatar() },
+    { id: 1, name: "coding_guru", description: "회원님을 위한 추천", avatar: "https://avatars.githubusercontent.com/u/72383308" },
+    { id: 2, name: "design_master", description: "Instagram 신규 가입", avatar: "https://avatars.githubusercontent.com/u/23015613" },
+    { id: 3, name: "tech_lover", description: "회원님을 위한 추천", avatar: "https://avatars.githubusercontent.com/u/30187475" },
+    { id: 4, name: "creative_mind", description: "Instagram 신규 가입", avatar: "https://avatars.githubusercontent.com/u/1569817" },
+    { id: 5, name: "art_enthusiast", description: "회원님을 위한 추천", avatar: "https://avatars.githubusercontent.com/u/98708081" },
   ];
 
   return (

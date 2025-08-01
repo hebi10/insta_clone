@@ -2,6 +2,15 @@ import { createServer, Factory, Model, Response } from 'miragejs';
 import { faker } from '@faker-js/faker';
 
 export function makeServer() {
+  // 기존 서버가 있으면 종료
+  if ((window as any).server) {
+    try {
+      (window as any).server.shutdown();
+    } catch (e) {
+      // 무시
+    }
+  }
+
   return createServer({
     models: {
       post: Model,
@@ -171,9 +180,12 @@ export function makeServer() {
     routes() {
       this.namespace = 'api';
       this.timing = 750;
+      this.urlPrefix = '';
 
       // NextAuth의 모든 라우트를 passthrough로 처리
       this.passthrough('/auth/**');
+      this.passthrough('/api/auth/**');
+      this.passthrough('https://api.github.com/**');
 
       // 홈 피드 게시물
       this.get('/posts', (schema) => {

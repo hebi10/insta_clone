@@ -56,19 +56,19 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
         id: '1',
         username: 'john_doe',
         name: 'John Doe',
-        avatar: faker.image.avatar(),
+        avatar: 'https://avatars.githubusercontent.com/u/12345',
       },
       {
         id: '2',
         username: 'jane_smith',
         name: 'Jane Smith',
-        avatar: faker.image.avatar(),
+        avatar: 'https://avatars.githubusercontent.com/u/67890',
       },
       {
         id: '3',
         username: 'design_studio',
         name: 'Design Studio',
-        avatar: faker.image.avatar(),
+        avatar: 'https://avatars.githubusercontent.com/u/11111',
         isVerified: true,
       },
     ];
@@ -82,9 +82,9 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
       const mockResults: SearchResult[] = Array.from({ length: 8 }, (_, i) => ({
         id: `result-${i}`,
         username: `${searchQuery}_user${i + 1}`,
-        name: faker.person.fullName(),
-        avatar: faker.image.avatar(),
-        isVerified: Math.random() > 0.7,
+        name: `User ${i + 1}`,
+        avatar: `https://avatars.githubusercontent.com/u/${22222 + i}`,
+        isVerified: i % 3 === 0, // 일정한 패턴으로 verified 상태 결정
       }));
       setSearchResults(mockResults);
     } else {
@@ -110,9 +110,17 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
     onClose();
   };
 
-  const popularImages = Array.from({ length: 9 }, () => 
-    faker.image.urlPicsumPhotos({ width: 120, height: 120 })
-  );
+  const popularImages = [
+    'https://picsum.photos/120/120?random=1',
+    'https://picsum.photos/120/120?random=2', 
+    'https://picsum.photos/120/120?random=3',
+    'https://picsum.photos/120/120?random=4',
+    'https://picsum.photos/120/120?random=5',
+    'https://picsum.photos/120/120?random=6',
+    'https://picsum.photos/120/120?random=7',
+    'https://picsum.photos/120/120?random=8',
+    'https://picsum.photos/120/120?random=9',
+  ];
 
   return (
     <SearchModalOverlay isOpen={isOpen} onClick={onClose}>

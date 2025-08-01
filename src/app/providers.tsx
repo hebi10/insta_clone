@@ -20,8 +20,19 @@ export default function Providers({ children, session }: ProvidersProps) {
 
   // Mock 서버 초기화 (개발 환경에서만)
   useEffect(() => {
-    if (process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_MODE === 'development') {
-      makeServer();
+    if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_MODE === 'development')) {
+      // 중복 초기화 방지를 위한 플래그
+      if ((window as any).__MIRAGE_INITIALIZED__) {
+        return;
+      }
+      
+      try {
+        (window as any).server = makeServer();
+        (window as any).__MIRAGE_INITIALIZED__ = true;
+        console.log('MirageJS 서버가 초기화되었습니다.');
+      } catch (error) {
+        console.error('MirageJS 서버 초기화 실패:', error);
+      }
     }
   }, []);
 

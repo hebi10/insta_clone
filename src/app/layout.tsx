@@ -8,7 +8,11 @@ export const metadata = {
 
 import Providers from './providers';
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function RootLayout({ children }: RootLayoutProps) {
 
   return (
     <html lang="ko">
