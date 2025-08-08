@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchSearchResults } from '@/app/api/query';
+import SafeImage from '@/app/_components/SafeImage';
 import {
   SearchModalOverlay,
   SearchModalContainer,
@@ -156,7 +157,13 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                         key={item.id}
                         onClick={() => handleResultClick(item)}
                       >
-                        <ResultAvatar src={item.avatar} alt={item.username} />
+                        <SafeImage
+                          src={item.avatar}
+                          alt={item.username}
+                          width={44}
+                          height={44}
+                          style={{ borderRadius: '50%' }}
+                        />
                         <ResultInfo>
                           <ResultUsername>
                             {item.username}
@@ -184,7 +191,13 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 <PopularGrid>
                   {popularImages.map((image, index) => (
                     <PopularItem key={index}>
-                      <PopularImage src={image} alt={`인기 게시물 ${index + 1}`} />
+                      <SafeImage
+                        src={image}
+                        alt={`인기 게시물 ${index + 1}`}
+                        width={100}
+                        height={100}
+                        style={{ width: '100%', height: '100%' }}
+                      />
                     </PopularItem>
                   ))}
                 </PopularGrid>
@@ -200,7 +213,13 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       key={item.id}
                       onClick={() => handleResultClick(item)}
                     >
-                      <ResultAvatar src={item.avatar} alt={item.username} />
+                      <SafeImage
+                        src={item.avatar}
+                        alt={item.username}
+                        width={44}
+                        height={44}
+                        style={{ borderRadius: '50%' }}
+                      />
                       <ResultInfo>
                         <ResultUsername>
                           {item.username}

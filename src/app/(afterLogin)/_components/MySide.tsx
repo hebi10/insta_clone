@@ -1,4 +1,5 @@
 import { Session } from "next-auth";
+import SafeImage from '@/app/_components/SafeImage';
 import {
   MySideContainer,
   UserProfile,
@@ -26,20 +27,48 @@ interface MySideProps {
 
 export default function MySide({ session }: MySideProps) {
   const suggestions = [
-    { id: 1, name: "coding_guru", description: "회원님을 위한 추천", avatar: "https://avatars.githubusercontent.com/u/72383308" },
-    { id: 2, name: "design_master", description: "Instagram 신규 가입", avatar: "https://avatars.githubusercontent.com/u/23015613" },
-    { id: 3, name: "tech_lover", description: "회원님을 위한 추천", avatar: "https://avatars.githubusercontent.com/u/30187475" },
-    { id: 4, name: "creative_mind", description: "Instagram 신규 가입", avatar: "https://avatars.githubusercontent.com/u/1569817" },
-    { id: 5, name: "art_enthusiast", description: "회원님을 위한 추천", avatar: "https://avatars.githubusercontent.com/u/98708081" },
+    { 
+      id: 1, 
+      name: "coding_guru", 
+      description: "회원님을 위한 추천", 
+      avatar: "https://picsum.photos/seed/coding_guru/150/150" 
+    },
+    { 
+      id: 2, 
+      name: "design_master", 
+      description: "Instagram 신규 가입", 
+      avatar: "https://picsum.photos/seed/design_master/150/150" 
+    },
+    { 
+      id: 3, 
+      name: "tech_lover", 
+      description: "회원님을 위한 추천", 
+      avatar: "https://picsum.photos/seed/tech_lover/150/150" 
+    },
+    { 
+      id: 4, 
+      name: "creative_mind", 
+      description: "Instagram 신규 가입", 
+      avatar: "https://picsum.photos/seed/creative_mind/150/150" 
+    },
+    { 
+      id: 5, 
+      name: "art_enthusiast", 
+      description: "회원님을 위한 추천", 
+      avatar: "https://picsum.photos/seed/art_enthusiast/150/150" 
+    },
   ];
 
   return (
     <MySideContainer>
       {/* 사용자 프로필 섹션 */}
       <UserProfile>
-        <UserAvatar 
+        <SafeImage
           src='/images/default-avatar.png'
-          alt={`${session?.user?.name || 'User'}님의 프로필 사진`} 
+          alt={`${session?.user?.name || 'User'}님의 프로필 사진`}
+          width={56}
+          height={56}
+          style={{ borderRadius: '50%' }}
         />
         <UserInfo>
           <UserName>{session?.user?.name || 'mockuser'}</UserName>
@@ -56,7 +85,13 @@ export default function MySide({ session }: MySideProps) {
       <SuggestionsList>
         {suggestions.map((user) => (
           <SuggestionItem key={user.id}>
-            <SuggestionAvatar src={user.avatar} alt={`${user.name}님의 프로필 사진`} />
+            <SafeImage
+              src={user.avatar}
+              alt={`${user.name}님의 프로필 사진`}
+              width={32}
+              height={32}
+              style={{ borderRadius: '50%' }}
+            />
             <SuggestionInfo>
               <SuggestionName>{user.name}</SuggestionName>
               <SuggestionDescription>{user.description}</SuggestionDescription>

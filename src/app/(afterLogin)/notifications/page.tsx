@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchNotifications } from '@/app/api/query';
+import SafeImage from '@/app/_components/SafeImage';
 import {
   NotificationsContainer,
   NotificationsHeader,
@@ -166,7 +167,13 @@ export default function NotificationsPage() {
               >
                 {!notification.isRead && <UnreadIndicator />}
                 
-                <NotificationAvatar src={notification.avatarUrl} alt={notification.username} />
+                <SafeImage
+                  src={notification.avatarUrl}
+                  alt={notification.username}
+                  width={44}
+                  height={44}
+                  style={{ borderRadius: '50%' }}
+                />
                 
                 <NotificationContent>
                   <NotificationText>
@@ -179,7 +186,13 @@ export default function NotificationsPage() {
                 </NotificationContent>
 
                 {notification.postImageUrl && (
-                  <NotificationMedia src={notification.postImageUrl} alt="게시물" />
+                  <SafeImage
+                    src={notification.postImageUrl}
+                    alt="게시물"
+                    width={44}
+                    height={44}
+                    style={{ borderRadius: '4px' }}
+                  />
                 )}
 
                 {notification.type === 'follow' && (

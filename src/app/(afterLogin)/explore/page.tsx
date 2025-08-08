@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchExploreContent } from '@/app/api/query';
+import SafeImage from '@/app/_components/SafeImage';
 import {
   ExploreContainer,
   ExploreHeader,
@@ -73,7 +74,13 @@ export default function ExplorePage() {
       <ExploreGrid>
         {displayPosts.map((post) => (
           <ExploreItem key={post.id}>
-            <ExploreImage src={post.imageUrl} alt={`${post.username}의 게시물`} />
+            <SafeImage
+              src={post.imageUrl}
+              alt={`${post.username}의 게시물`}
+              width={400}
+              height={400}
+              style={{ width: '100%', height: '100%' }}
+            />
             <ExploreOverlay className="overlay">
               <OverlayStats>
                 <FiHeart />

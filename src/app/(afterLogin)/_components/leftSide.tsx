@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import SearchModal from '../@modal/search/SearchModal';
+import SafeImage from '@/app/_components/SafeImage';
 import {
   FiHome,
   FiSearch,
@@ -138,9 +139,12 @@ export default function LeftSide({
                 </button>
               ) : item.isProfile ? (
                 <Link href={item.href} onClick={(e) => handleNavigation(item.href, e)}>
-                  <Avatar 
+                  <SafeImage
                     src='/images/default-avatar.png'
-                    alt={`${session?.user?.name || 'User'}님의 프로필 사진`} 
+                    alt={`${session?.user?.name || 'User'}님의 프로필 사진`}
+                    width={24}
+                    height={24}
+                    style={{ borderRadius: '50%' }}
                   />
                 </Link>
               ) : (
@@ -175,9 +179,12 @@ export default function LeftSide({
                 </button>
               ) : item.isProfile ? (
                 <Link href={item.href} onClick={(e) => handleNavigation(item.href, e)}>
-                  <Avatar 
+                  <SafeImage
                     src='/images/default-avatar.png'
-                    alt={`${session?.user?.name || 'User'}님의 프로필 사진`} 
+                    alt={`${session?.user?.name || 'User'}님의 프로필 사진`}
+                    width={24}
+                    height={24}
+                    style={{ borderRadius: '50%', marginRight: '16px' }}
                   />
                   <span>{item.label}</span>
                 </Link>

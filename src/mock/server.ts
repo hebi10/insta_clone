@@ -85,9 +85,7 @@ export function makeServer() {
           return faker.internet.username();
         },
         avatar() {
-          // 더 안정적인 아바타 이미지 URL
-          const seed = faker.string.alphanumeric(10);
-          return `https://picsum.photos/seed/reel-${seed}/150/150`;
+          return generateAvatarImageUrl();
         },
         description() {
           return `${faker.lorem.sentence()} #릴스 #인스타그램 #일상`;
@@ -114,9 +112,7 @@ export function makeServer() {
           return faker.internet.username();
         },
         avatar() {
-          // 더 안정적인 아바타 이미지 URL
-          const seed = faker.string.alphanumeric(10);
-          return `https://picsum.photos/seed/notification-${seed}/150/150`;
+          return generateAvatarImageUrl();
         },
         timestamp() {
           return faker.date.recent({ days: 7 });
@@ -125,9 +121,7 @@ export function makeServer() {
           return faker.datatype.boolean();
         },
         postImage() {
-          // 더 안정적인 게시물 이미지 URL
-          const seed = faker.string.alphanumeric(10);
-          return `https://picsum.photos/seed/noti-post-${seed}/150/150`;
+          return generateCustomImageUrl('noti-post', faker.string.alphanumeric(10), 150, 150);
         },
         text() {
           return faker.lorem.sentence();
@@ -144,9 +138,7 @@ export function makeServer() {
           return faker.internet.username();
         },
         avatar() {
-          // 더 안정적인 아바타 이미지 URL
-          const seed = faker.string.alphanumeric(10);
-          return `https://picsum.photos/seed/chat-${seed}/150/150`;
+          return generateAvatarImageUrl();
         },
         lastMessage() {
           return faker.lorem.sentence();
@@ -189,7 +181,7 @@ export function makeServer() {
         email: 'test@test.com',
         password: '1234',
         username: 'mockuser',
-        avatarUrl: 'https://picsum.photos/seed/mockuser/150/150',
+        avatarUrl: generateCustomImageUrl('mockuser', 'avatar', 150, 150),
       });
     },
     routes() {
@@ -234,7 +226,7 @@ export function makeServer() {
           id: chatId,
           name: faker.person.fullName(),
           username: faker.internet.username(),
-          avatar: `https://picsum.photos/seed/chat-user-${chatId}/150/150`,
+          avatar: generateCustomImageUrl('chat-user', chatId, 150, 150),
           isOnline: Math.random() > 0.5,
           lastSeen: faker.date.recent(),
         };
@@ -249,7 +241,7 @@ export function makeServer() {
             senderName: isOwn ? '나' : user.name,
             senderAvatar: isOwn ? '/images/default-avatar.png' : user.avatar,
             content: isImage 
-              ? `https://picsum.photos/seed/chat-msg-${chatId}-${i}/300/200`
+              ? generateCustomImageUrl('chat-msg', `${chatId}-${i}`, 300, 200)
               : faker.lorem.sentence(),
             type: isImage ? 'image' : 'text',
             timestamp: faker.date.recent({ days: 3 }),
@@ -270,7 +262,7 @@ export function makeServer() {
         return {
           username: user.attrs.username || username,
           fullName: user.attrs.fullName || faker.person.fullName(),
-          avatar: user.attrs.avatar || `https://picsum.photos/seed/profile-${username}/150/150`,
+          avatar: user.attrs.avatar || generateCustomImageUrl('profile', username, 150, 150),
           bio: user.attrs.bio || faker.lorem.paragraph(2),
           website: user.attrs.website || faker.internet.url(),
           postsCount: user.attrs.postsCount || faker.number.int({ min: 50, max: 500 }),
@@ -286,7 +278,7 @@ export function makeServer() {
         // 프로필 페이지용 게시물 (그리드 형태)
         const posts = Array.from({ length: 12 }, (_, i) => ({
           id: faker.string.uuid(),
-          imageUrl: `https://picsum.photos/seed/user-post-${request.params.username}-${i}/400/400`,
+          imageUrl: generateCustomImageUrl('user-post', `${request.params.username}-${i}`, 400, 400),
           likeCount: faker.number.int({ min: 50, max: 1000 }),
           commentCount: faker.number.int({ min: 5, max: 100 }),
         }));
@@ -297,7 +289,7 @@ export function makeServer() {
       this.get('/users/:username/saved', (schema, request) => {
         const posts = Array.from({ length: 6 }, (_, i) => ({
           id: faker.string.uuid(),
-          imageUrl: `https://picsum.photos/seed/saved-${request.params.username}-${i}/400/400`,
+          imageUrl: generateCustomImageUrl('saved', `${request.params.username}-${i}`, 400, 400),
           likeCount: faker.number.int({ min: 50, max: 1000 }),
           commentCount: faker.number.int({ min: 5, max: 100 }),
         }));
@@ -308,7 +300,7 @@ export function makeServer() {
       this.get('/users/:username/tagged', (schema, request) => {
         const posts = Array.from({ length: 8 }, (_, i) => ({
           id: faker.string.uuid(),
-          imageUrl: `https://picsum.photos/seed/tagged-${request.params.username}-${i}/400/400`,
+          imageUrl: generateCustomImageUrl('tagged', `${request.params.username}-${i}`, 400, 400),
           likeCount: faker.number.int({ min: 50, max: 1000 }),
           commentCount: faker.number.int({ min: 5, max: 100 }),
         }));

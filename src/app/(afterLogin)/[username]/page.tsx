@@ -3,11 +3,11 @@
 import { useState, use } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchUserProfile, fetchUserPosts } from '@/app/api/query';
+import SafeImage from '@/app/_components/SafeImage';
 import {
   ProfileContainer,
   ProfileHeader,
   ProfileAvatar,
-  AvatarImage,
   ProfileInfo,
   ProfileNameRow,
   Username,
@@ -120,9 +120,12 @@ export default function ProfilePage({ params }: Props) {
     <ProfileContainer>
       <ProfileHeader>
         <ProfileAvatar>
-          <AvatarImage 
-            src={profileData?.avatar || '/images/default-avatar.png'} 
-            alt={profileData?.username || 'User'} 
+          <SafeImage
+            src={profileData?.avatar || '/images/default-avatar.png'}
+            alt={profileData?.username || 'User'}
+            width={150}
+            height={150}
+            style={{ borderRadius: '50%' }}
           />
         </ProfileAvatar>
 
@@ -194,7 +197,13 @@ export default function ProfilePage({ params }: Props) {
             <PostsGrid>
               {posts.map((post: Post) => (
                 <PostItem key={post.id}>
-                  <PostImage src={post.imageUrl} alt="게시물" />
+                  <SafeImage
+                    src={post.imageUrl}
+                    alt="게시물"
+                    width={400}
+                    height={400}
+                    style={{ width: '100%', height: '100%' }}
+                  />
                   <PostOverlay className="overlay">
                     <OverlayStats>
                       <FiHeart />

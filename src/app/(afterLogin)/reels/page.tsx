@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchReels } from '@/app/api/query';
+import SafeImage from '@/app/_components/SafeImage';
 import {
   ReelsPageWrapper,
   ReelsContainer,
@@ -98,7 +99,13 @@ export default function ReelsPage() {
           
           <ReelOverlay>
             <ReelHeader>
-              <ReelAvatar src={reel.avatar} alt={reel.username} />
+              <SafeImage
+                src={reel.avatar}
+                alt={reel.username}
+                width={32}
+                height={32}
+                style={{ borderRadius: '50%' }}
+              />
               <ReelUsername>{reel.username}</ReelUsername>
               {!reel.isFollowing && (
                 <FollowButton onClick={() => handleFollow(reel.id)}>
