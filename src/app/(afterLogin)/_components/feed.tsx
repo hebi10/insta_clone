@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import SafeImage from '@/app/_components/SafeImage';
 import {
   FeedWrapper,
   FeedHeader,
@@ -77,7 +78,13 @@ export default function FeedItem({
       {/* 피드 헤더 */}
       <FeedHeader>
         <FeedHeaderLeft>
-          <Avatar src={avatarUrl} alt={username} />
+          <SafeImage 
+            src={avatarUrl} 
+            alt={username}
+            width={32}
+            height={32}
+            style={{ borderRadius: '50%' }}
+          />
           <UserInfo>
             <Username>{username}</Username>
             <Location>Seoul, South Korea</Location>
@@ -89,7 +96,13 @@ export default function FeedItem({
       </FeedHeader>
 
       {/* 피드 이미지 */}
-      <FeedImage src={imageUrl} alt="post" />
+      <SafeImage 
+        src={imageUrl} 
+        alt="post"
+        width={600}
+        height={400}
+        style={{ width: '100%', maxWidth: '600px' }}
+      />
 
       {/* 액션 버튼들 */}
       <FeedActions>

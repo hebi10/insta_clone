@@ -38,7 +38,7 @@ export default function MySide({ session }: MySideProps) {
       {/* 사용자 프로필 섹션 */}
       <UserProfile>
         <UserAvatar 
-          src={session?.user?.image || '/images/default-avatar.png'} 
+          src='/images/default-avatar.png'
           alt={`${session?.user?.name || 'User'}님의 프로필 사진`} 
         />
         <UserInfo>

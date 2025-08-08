@@ -55,7 +55,7 @@ export const {
             id: mockUser.id,
             name: mockUser.username,
             email: mockUser.email,
-            image: 'https://avatars.githubusercontent.com/u/defaultuser',
+            image: '/images/default-avatar.png',
           };
         }
 

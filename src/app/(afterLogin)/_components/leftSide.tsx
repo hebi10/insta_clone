@@ -139,7 +139,7 @@ export default function LeftSide({
               ) : item.isProfile ? (
                 <Link href={item.href} onClick={(e) => handleNavigation(item.href, e)}>
                   <Avatar 
-                    src={session?.user?.image || '/images/default-avatar.png'} 
+                    src='/images/default-avatar.png'
                     alt={`${session?.user?.name || 'User'}님의 프로필 사진`} 
                   />
                 </Link>
@@ -176,7 +176,7 @@ export default function LeftSide({
               ) : item.isProfile ? (
                 <Link href={item.href} onClick={(e) => handleNavigation(item.href, e)}>
                   <Avatar 
-                    src={session?.user?.image || '/images/default-avatar.png'} 
+                    src='/images/default-avatar.png'
                     alt={`${session?.user?.name || 'User'}님의 프로필 사진`} 
                   />
                   <span>{item.label}</span>
