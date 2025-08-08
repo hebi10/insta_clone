@@ -184,7 +184,7 @@ export default function LeftSide({
                     alt={`${session?.user?.name || 'User'}님의 프로필 사진`}
                     width={24}
                     height={24}
-                    style={{ borderRadius: '50%', marginRight: '16px' }}
+                    style={{ borderRadius: '50%' }}
                   />
                   <span>{item.label}</span>
                 </Link>

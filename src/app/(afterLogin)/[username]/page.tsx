@@ -25,13 +25,13 @@ import {
   TabItem,
   PostsGrid,
   PostItem,
-  PostImage,
   PostOverlay,
   OverlayStats,
   EmptyState,
   LoadingContainer,
 } from './page.style';
 import { FiGrid, FiBookmark, FiTag, FiHeart, FiMessageCircle, FiCamera } from 'react-icons/fi';
+import { useParams } from 'next/navigation';
 
 interface Props {
   params: Promise<{ username: string }>;
@@ -58,19 +58,24 @@ interface Post {
 }
 
 export default function ProfilePage({ params }: Props) {
-  const resolvedParams = use(params);
+  const resolvedParams = useParams();
   const [activeTab, setActiveTab] = useState('posts');
 
+  // username을 string으로 안전하게 변환
+  const username = Array.isArray(resolvedParams.username) 
+    ? resolvedParams.username[0] 
+    : resolvedParams.username || '';
+
   const { data: profileData, isLoading: profileLoading } = useQuery({
-    queryKey: ['profile', resolvedParams.username],
-    queryFn: () => fetchUserProfile(resolvedParams.username),
+    queryKey: ['profile', username],
+    queryFn: () => fetchUserProfile(username),
     staleTime: 1000 * 10, 
     gcTime: 1000 * 60 * 10, 
   });
 
   const { data: posts = [], isLoading: postsLoading } = useQuery({
-    queryKey: ['userPosts', resolvedParams.username],
-    queryFn: () => fetchUserPosts(resolvedParams.username),
+    queryKey: ['userPosts', username],
+    queryFn: () => fetchUserPosts(username),
     staleTime: 1000 * 10, 
     gcTime: 1000 * 60 * 10, 
   });
@@ -79,7 +84,7 @@ export default function ProfilePage({ params }: Props) {
 
   const handleFollow = () => {
     // 실제로는 서버에 팔로우/언팔로우 요청을 보내는 로직이 필요
-    console.log('Toggle follow for:', resolvedParams.username);
+    console.log('Toggle follow for:', username);
   };
 
   const formatNumber = (num: number | undefined | null) => {
@@ -121,7 +126,7 @@ export default function ProfilePage({ params }: Props) {
       <ProfileHeader>
         <ProfileAvatar>
           <SafeImage
-            src={profileData?.avatar || '/images/default-avatar.png'}
+            src='/images/default-avatar.png'
             alt={profileData?.username || 'User'}
             width={150}
             height={150}
@@ -131,7 +136,7 @@ export default function ProfilePage({ params }: Props) {
 
         <ProfileInfo>
           <ProfileNameRow>
-            <Username>{profileData?.username || resolvedParams.username}</Username>
+            <Username>{profileData?.username || username}</Username>
             <ProfileActions>
               {profileData?.isOwnProfile ? (
                 <>
