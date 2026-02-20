@@ -66,12 +66,12 @@ export default function FeedItem({
 
   const handleComment = () => {
     if (comment.trim()) {
-      // 댓글 처리 로직
+      // TODO: 댓글 API 연동
       setComment('');
     }
   };
 
-  const timeAgo = '2시간 전'; // 실제로는 계산된 시간
+  const timeAgo = '2시간 전';
 
   return (
     <FeedWrapper>
@@ -87,7 +87,6 @@ export default function FeedItem({
           />
           <UserInfo>
             <Username>{username}</Username>
-            <Location>Seoul, South Korea</Location>
           </UserInfo>
         </FeedHeaderLeft>
         <MoreButton>
@@ -156,7 +155,7 @@ export default function FeedItem({
           placeholder="댓글 달기..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          onKeyPress={(e) => e.key === 'Enter' && handleComment()}
+          onKeyDown={(e) => e.key === 'Enter' && handleComment()}
         />
         <PostButton 
           onClick={handleComment}

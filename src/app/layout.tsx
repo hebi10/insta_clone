@@ -1,9 +1,9 @@
 export const metadata = {
   title: {
-    default: 'Instagram clone',
-    template: 'Hebi | Instagram clone',
+    default: 'Instagram Clone',
+    template: '%s | Instagram Clone',
   },
-  description: 'Instagram clone application built with Next.js, TypeScript, and MirageJS for mock API.',
+  description: 'Next.js + React Query 기반 Instagram 클론 프로젝트',
 };
 
 import Providers from './providers';

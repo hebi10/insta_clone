@@ -12,10 +12,9 @@ import { makeServer } from "@/mock/server";
 
 interface ProvidersProps {
   children: React.ReactNode;
-  session?: any;
 }
 
-export default function Providers({ children, session }: ProvidersProps) {
+export default function Providers({ children }: ProvidersProps) {
   const [client] = useState(() => new QueryClient());
 
   // Mock 서버 초기화 (개발 환경에서만)
@@ -29,9 +28,8 @@ export default function Providers({ children, session }: ProvidersProps) {
       try {
         (window as any).server = makeServer();
         (window as any).__MIRAGE_INITIALIZED__ = true;
-        console.log('MirageJS 서버가 초기화되었습니다.');
       } catch (error) {
-        console.error('MirageJS 서버 초기화 실패:', error);
+        console.error('MirageJS init failed:', error);
       }
     }
   }, []);

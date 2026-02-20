@@ -1,4 +1,3 @@
-import { faker } from "@faker-js/faker";
 import { Session } from "next-auth";
 import { NavWrap, NavList, NavItem, ProfileNavItem, Avatar, Logo, MenuToggle } from './leftSide.style';
 import { signOut } from 'next-auth/react';
@@ -76,12 +75,9 @@ export default function LeftSide({
     }
   };
 
-  // 현재 페이지와 같은 경로로 이동하는 것을 방지하는 헬퍼 함수
   const handleNavigation = (href: string, e: React.MouseEvent) => {
     if (pathname === href) {
       e.preventDefault();
-      // 현재 페이지임을 시각적으로 표시 (옵션)
-      console.log('이미 현재 페이지입니다:', href);
       return false;
     }
     return true;
@@ -122,19 +118,7 @@ export default function LeftSide({
           mobileNavItems.map((item, index) => (
             <NavItem key={index} isSearchMode={searchModalOpen} className={item.active ? 'active' : ''}>
               {item.isButton ? (
-                <button 
-                  onClick={handleSearchClick}
-                  style={{ 
-                    background: 'none', 
-                    border: 'none', 
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    width: '100%',
-                    height: '100%'
-                  }}
-                >
+                <button onClick={handleSearchClick}>
                   {item.icon && <item.icon />}
                 </button>
               ) : item.isProfile ? (
@@ -159,21 +143,7 @@ export default function LeftSide({
           desktopNavItems.map((item, index) => (
             <NavItem key={index} isSearchMode={searchModalOpen} className={item.active ? 'active' : ''}>
               {item.isButton ? (
-                <button 
-                  onClick={handleSearchClick}
-                  style={{ 
-                    background: 'none', 
-                    border: 'none', 
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '16px',
-                    padding: '12px',
-                    width: '100%',
-                    fontSize: '16px',
-                    color: '#262626'
-                  }}
-                >
+                <button onClick={handleSearchClick}>
                   {item.icon && <item.icon />}
                   <span>{item.label}</span>
                 </button>

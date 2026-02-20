@@ -1,101 +1,90 @@
 import styled from 'styled-components';
 
 export const MySideContainer = styled.div`
-  padding: 20px 0;
+  padding: 18px 0;
 `;
 
 export const UserProfile = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 24px;
-  padding: 16px 0;
-`;
-
-export const UserAvatar = styled.img`
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  margin-right: 12px;
-  object-fit: cover;
+  margin-bottom: 20px;
+  padding: 10px 0;
+  gap: 14px;
 `;
 
 export const UserInfo = styled.div`
   flex: 1;
+  min-width: 0;
 `;
 
 export const UserName = styled.div`
   font-size: 14px;
   font-weight: 600;
   color: #262626;
-  margin-bottom: 2px;
 `;
 
 export const UserEmail = styled.div`
-  font-size: 12px;
+  font-size: 13px;
   color: #8e8e8e;
+  margin-top: 2px;
 `;
 
-export const SectionTitle = styled.div`
+export const SectionHeader = styled.div`
   display: flex;
-  justify-content: between;
+  justify-content: space-between;
   align-items: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: #8e8e8e;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
+
+  span {
+    font-size: 14px;
+    font-weight: 600;
+    color: #8e8e8e;
+  }
 `;
 
-export const SeeAllButton = styled.button`
+export const SeeAllBtn = styled.button`
   background: none;
   border: none;
   font-size: 12px;
   color: #262626;
   font-weight: 600;
   cursor: pointer;
-  margin-left: auto;
   
   &:hover {
     color: #8e8e8e;
   }
 `;
 
-export const SuggestionsList = styled.div`
+export const SuggestList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
 `;
 
-export const SuggestionItem = styled.div`
+export const SuggestRow = styled.div`
   display: flex;
   align-items: center;
-  padding: 8px 0;
+  padding: 6px 0;
+  gap: 10px;
 `;
 
-export const SuggestionAvatar = styled.img`
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  margin-right: 12px;
-  object-fit: cover;
-`;
-
-export const SuggestionInfo = styled.div`
+export const SuggestInfo = styled.div`
   flex: 1;
+  min-width: 0;
+
+  .name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #262626;
+  }
+  .desc {
+    font-size: 12px;
+    color: #8e8e8e;
+    margin-top: 1px;
+  }
 `;
 
-export const SuggestionName = styled.div`
-  font-size: 14px;
-  font-weight: 600;
-  color: #262626;
-  margin-bottom: 2px;
-`;
-
-export const SuggestionDescription = styled.div`
-  font-size: 12px;
-  color: #8e8e8e;
-`;
-
-export const FollowButton = styled.button`
+export const FollowBtn = styled.button`
   background: none;
   border: none;
   font-size: 12px;
@@ -108,21 +97,20 @@ export const FollowButton = styled.button`
   }
 `;
 
-export const FooterLinks = styled.div`
-  margin-top: 32px;
-  padding-top: 16px;
-  border-top: 1px solid #efefef;
+export const Footer = styled.div`
+  margin-top: 28px;
+  padding-top: 14px;
 `;
 
 export const FooterText = styled.div`
   font-size: 11px;
   color: #c7c7c7;
-  line-height: 13px;
-  margin-bottom: 8px;
+  line-height: 16px;
+  word-spacing: 1px;
 `;
 
 export const Copyright = styled.div`
   font-size: 11px;
   color: #c7c7c7;
-  margin-top: 16px;
+  margin-top: 12px;
 `;

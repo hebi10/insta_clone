@@ -1,90 +1,53 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { useSession } from "next-auth/react";
 import LeftSide from "./_components/leftSide";
 import SearchModal from "./@modal/search/SearchModal";
-import { Container, LeftArea, MobileHeader, MobileContent } from "./layout.style";
-import Image from "next/image";
 
 interface RootLayoutProps {
-  children: React.ReactNode;
-  modal: React.ReactNode;
+  children: ReactNode;
+  modal: ReactNode;
 }
 
 export default function RootLayout({ children, modal }: RootLayoutProps) {
   const { data: session } = useSession();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
+  const [sidebarWidth, setSidebarWidth] = useState(220);
 
-  const handleSearchModalOpen = () => setIsSearchModalOpen(true);
-  const handleSearchModalClose = () => setIsSearchModalOpen(false);
-
-  // 화면 크기 감지
   useEffect(() => {
-    const checkIsMobile = () => {
-      setIsMobile(window.innerWidth <= 767);
+    const update = () => {
+      const w = window.innerWidth;
+      if (w <= 767) setSidebarWidth(0);
+      else if (w <= 1023) setSidebarWidth(72);
+      else setSidebarWidth(isSearchModalOpen ? 72 : 220);
     };
-
-    checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-    return () => window.removeEventListener('resize', checkIsMobile);
-  }, []);
-
-  const getMarginLeft = () => {
-    if (isMobile) return '0';
-    if (isSearchModalOpen) return '72px';
-    if (typeof window !== 'undefined' && window.innerWidth <= 1023) return '72px'; // tablet
-    return '220px'; // desktop
-  };
+    update();
+    window.addEventListener('resize', update);
+    return () => window.removeEventListener('resize', update);
+  }, [isSearchModalOpen]);
 
   return (
-    <Container className={isSearchModalOpen ? 'search-mode' : ''}>
-      {/* 모바일 헤더 */}
-      {isMobile && (
-        <MobileHeader>
-          <Image 
-            src="/images/img_logo.svg" 
-            alt="Instagram" 
-            width={103} 
-            height={29}
-          />
-          <div>
-            {/* 모바일 헤더 우측 아이콘들 */}
-          </div>
-        </MobileHeader>
-      )}
-
-      <LeftArea>
-        <LeftSide 
-          session={session} 
+    <div style={{ display: 'flex', minHeight: '100dvh' }}>
+      <div style={{ position: 'fixed', top: 0, left: 0, zIndex: 100, height: '100dvh' }}>
+        <LeftSide
+          session={session}
           isSearchModalOpen={isSearchModalOpen}
-          onSearchModalOpen={handleSearchModalOpen}
-          onSearchModalClose={handleSearchModalClose}
+          onSearchModalOpen={() => setIsSearchModalOpen(true)}
+          onSearchModalClose={() => setIsSearchModalOpen(false)}
         />
-      </LeftArea>
-      
-      <div style={{ 
-        flex: 1, 
-        marginLeft: getMarginLeft(),
-        transition: 'margin-left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-      }}>
-        {isMobile ? (
-          <MobileContent>
-            {children}
-          </MobileContent>
-        ) : (
-          children
-        )}
       </div>
-      
-      {/* 검색 모달 */}
-      <SearchModal 
-        isOpen={isSearchModalOpen} 
-        onClose={handleSearchModalClose} 
+
+      <div style={{ flex: 1, marginLeft: sidebarWidth, transition: 'margin-left 0.3s ease' }}>
+        {children}
+      </div>
+
+      <SearchModal
+        isOpen={isSearchModalOpen}
+        onClose={() => setIsSearchModalOpen(false)}
       />
-      
+
       {modal}
-    </Container>
+    </div>
   );
 }

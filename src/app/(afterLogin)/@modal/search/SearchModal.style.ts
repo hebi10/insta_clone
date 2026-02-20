@@ -204,6 +204,7 @@ export const SearchResultsList = styled.div`
 export const SearchResultItem = styled.div`
   display: flex;
   align-items: center;
+  gap: 12px;
   padding: 8px 24px;
   cursor: pointer;
   transition: background-color 0.1s ease;

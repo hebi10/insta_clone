@@ -115,12 +115,12 @@ export const FeedActions = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 16px 8px 16px;
+  padding: 4px 12px 6px;
 `;
 
 export const ActionsLeft = styled.div`
   display: flex;
-  gap: 16px;
+  gap: 14px;
 `;
 
 export const ActionButton = styled.button`
@@ -153,7 +153,7 @@ export const ActionButton = styled.button`
 `;
 
 export const LikesSection = styled.div`
-  padding: 0 16px 8px 16px;
+  padding: 0 12px 6px;
 `;
 
 export const Likes = styled.div`
@@ -164,7 +164,7 @@ export const Likes = styled.div`
 `;
 
 export const FeedContent = styled.div`
-  padding: 0 16px 8px 16px;
+  padding: 0 12px 6px;
 `;
 
 export const Description = styled.div`
@@ -208,10 +208,10 @@ export const TimeStamp = styled.div`
 
 export const CommentSection = styled.div`
   border-top: 1px solid #efefef;
-  padding: 8px 16px;
+  padding: 6px 12px;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 `;
 
 export const CommentInput = styled.input`

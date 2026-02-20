@@ -11,7 +11,7 @@ export const NavWrap = styled.nav.withConfig({
   background-color: #ffffff;
   border-right: 1px solid #dbdbdb;
   width: ${props => props.isSearchMode ? '72px' : '220px'};
-  transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: width 0.3s ease;
   overflow: hidden;
   
   /* 태블릿에서는 항상 좁은 사이드바 */
@@ -22,24 +22,22 @@ export const NavWrap = styled.nav.withConfig({
   
   /* 모바일에서는 하단 탭바로 변경 */
   @media ${props => props.theme.media.mobile} {
-    position: fixed !important;
-    bottom: 0 !important;
-    left: 0 !important;
-    right: 0 !important;
-    top: auto !important;
-    height: 50px !important;
-    width: 100% !important;
-    flex-direction: row !important;
-    justify-content: space-around !important;
-    align-items: center !important;
-    padding: 0 !important;
-    border-right: none !important;
-    border-top: 1px solid #dbdbdb !important;
-    background-color: white !important;
-    z-index: 1000 !important;
-    box-shadow: 0 -1px 10px rgba(0, 0, 0, 0.1) !important;
-    display: flex !important;
-  }
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    top: auto;
+    height: 50px;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0;
+    border-right: none;
+    border-top: 1px solid #dbdbdb;
+    background-color: white;
+    z-index: 1000;
+    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
   }
 `;
 

@@ -80,7 +80,7 @@ export const ResponsiveFlex = styled.div<{
 
 // 반응형 텍스트 컴포넌트
 export const ResponsiveText = styled.p<{
-  size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl' | 'xxl';
+  size?: 'xs' | 'sm' | 'base' | 'lg' | 'xl';
   weight?: 300 | 400 | 500 | 600 | 700;
   color?: string;
 }>`
@@ -91,13 +91,12 @@ export const ResponsiveText = styled.p<{
   
   @media ${props => props.theme.media.mobile} {
     font-size: ${props => {
-      const sizeMap = {
+      const sizeMap: Record<string, string> = {
         'xs': props.theme.fontSize.xs,
         'sm': '12px',
-        'base': '14px',
+        'base': '13px',
         'lg': props.theme.fontSize.base,
-        'xl': props.theme.fontSize.lg,
-        'xxl': props.theme.fontSize.xl
+        'xl': props.theme.fontSize.lg
       };
       return sizeMap[props.size || 'base'];
     }};

@@ -3,7 +3,6 @@ import 'styled-components';
 declare module 'styled-components' {
   export interface DefaultTheme {
     breakpoints: {
-      xs: string;
       md: string;
       lg: string;
     };
@@ -30,7 +29,6 @@ declare module 'styled-components' {
       base: string;
       lg: string;
       xl: string;
-      xxl: string;
     };
     spacing: {
       xs: string;
@@ -38,15 +36,15 @@ declare module 'styled-components' {
       md: string;
       lg: string;
       xl: string;
-      xxl: string;
     };
     instagram: {
       maxWidth: string;
       sidebarWidth: string;
+      narrowSidebar: string;
       postWidth: string;
-      storyHeight: string;
       headerHeight: string;
       mobileHeaderHeight: string;
+      mobileTabHeight: string;
     };
   }
 }
