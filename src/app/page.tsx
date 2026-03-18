@@ -1,26 +1,13 @@
-"use client";
-import { useSession } from "next-auth/react";
-import BeforeLoginPage from './(beforeLogin)/BeforeLoginPage';
-import { Loading, LoadingImage } from "./page.style";
-import Image from "next/image";
-import AfterLoginPage from "./(afterLogin)/AfterLoginPage";
+import { getServerSession } from "next-auth";
+import { redirect } from "next/navigation";
+import { authOptions } from "@/auth";
 
-export default function Page() {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") {
-    return (
-      <Loading>
-        <LoadingImage>
-          <Image src="/images/img_loading.png" alt="로딩중..." fill />
-        </LoadingImage>
-      </Loading>
-    );
-  }
+export default async function Page() {
+  const session = await getServerSession(authOptions);
 
   if (session) {
-    return <AfterLoginPage />;
+    redirect("/(afterLogin)");
+  } else {
+    redirect("/(beforeLogin)/login");
   }
-
-  return <BeforeLoginPage />;
 }

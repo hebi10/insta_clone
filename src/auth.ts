@@ -1,12 +1,8 @@
-import NextAuth from "next-auth"
+import NextAuth, { type NextAuthConfig } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { faker } from '@faker-js/faker';
 
-export const {
-  handlers: { GET, POST },
-  auth,
-  signIn,
-} = NextAuth({
+export const authOptions: NextAuthConfig = {
   debug: process.env.NODE_ENV === 'development',
   trustHost: true,
   secret: process.env.AUTH_SECRET,
@@ -65,7 +61,7 @@ export const {
     }),
   ],
   pages: {
-    signIn: '/',
+    signIn: '/login',
   },
   callbacks: {
     async signIn({ user, account, profile, email, credentials }) {
@@ -81,4 +77,10 @@ export const {
       return token;
     }
   }
-});
+};
+
+export const {
+  handlers: { GET, POST },
+  auth,
+  signIn,
+} = NextAuth(authOptions);
