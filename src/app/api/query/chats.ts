@@ -1,45 +1,62 @@
-// 채팅 관련 API 함수들
+interface ChatSummary {
+  id: string;
+  username: string;
+  name: string;
+  avatar: string;
+  lastMessage: string;
+  timestamp: string | Date;
+  unreadCount: number;
+  isOnline: boolean;
+}
+
+interface ChatMessage {
+  id: string;
+  senderId: string;
+  senderName: string;
+  message?: string;
+  content?: string;
+  type: 'text' | 'image' | 'emoji';
+  timestamp: string | Date;
+}
+
+interface ChatDetail {
+  id: string;
+  username: string;
+  fullName: string;
+  avatarUrl: string;
+  isOnline: boolean;
+  lastSeen: string | Date | null;
+  messages: ChatMessage[];
+}
 
 export async function fetchChats() {
   const response = await fetch('/api/chats');
   if (!response.ok) throw new Error('Failed to fetch chats');
-  const data = await response.json();
-  
-  // timestamp를 Date 객체로 변환
-  const chats = (data.chats ?? []).map((chat: any) => ({
+  const data: { chats?: ChatSummary[] } = await response.json();
+
+  return (data.chats ?? []).map((chat) => ({
     ...chat,
-    timestamp: new Date(chat.timestamp)
+    timestamp: new Date(chat.timestamp),
   }));
-  
-  return chats;
 }
 
 export async function fetchChatDetails(chatId: string) {
   try {
     const response = await fetch(`/api/chats/${chatId}`);
     if (!response.ok) throw new Error('Failed to fetch chat details');
-    const data = await response.json();
-    
-    console.log('Raw API response:', data);
-    
-    // API 응답을 처리하여 올바른 형식으로 변환
+    const data: { chat?: ChatDetail } = await response.json();
     const chat = data.chat;
+
     if (!chat) throw new Error('Chat data not found');
-    
-    // messages 배열의 timestamp를 Date 객체로 변환
-    const processedMessages = (chat.messages || []).map((msg: any) => ({
-      ...msg,
-      timestamp: new Date(msg.timestamp)
-    }));
-    
-    const processedChat = {
+
+    return {
       ...chat,
-      messages: processedMessages,
-      lastSeen: chat.lastSeen ? new Date(chat.lastSeen) : null
+      messages: chat.messages.map((message) => ({
+        ...message,
+        timestamp: new Date(message.timestamp),
+      })),
+      lastSeen: chat.lastSeen ? new Date(chat.lastSeen) : null,
     };
-    
-    console.log('Processed chat:', processedChat);
-    return processedChat;
   } catch (error) {
     console.error('Error fetching chat details:', error);
     throw error;

@@ -113,7 +113,7 @@ export default function EmailSignupPage() {
         const data = await response.json();
         setErrors({ submit: data.message || '회원가입 중 오류가 발생했습니다.' });
       }
-    } catch (error) {
+    } catch {
       setErrors({ submit: '네트워크 오류가 발생했습니다.' });
     } finally {
       setIsLoading(false);

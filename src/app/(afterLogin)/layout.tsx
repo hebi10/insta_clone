@@ -13,14 +13,13 @@ interface RootLayoutProps {
 export default function RootLayout({ children, modal }: RootLayoutProps) {
   const { data: session } = useSession();
   const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-  const [sidebarWidth, setSidebarWidth] = useState(220);
+  const [sidebarWidth, setSidebarWidth] = useState(244);
 
   useEffect(() => {
     const update = () => {
       const w = window.innerWidth;
-      if (w <= 767) setSidebarWidth(0);
-      else if (w <= 1023) setSidebarWidth(72);
-      else setSidebarWidth(isSearchModalOpen ? 72 : 220);
+      if (w <= 767) setSidebarWidth(72);
+      else setSidebarWidth(isSearchModalOpen ? 72 : 244);
     };
     update();
     window.addEventListener('resize', update);

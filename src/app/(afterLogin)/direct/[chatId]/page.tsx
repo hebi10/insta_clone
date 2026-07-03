@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect, use } from 'react';
+import { useState, useRef, useEffect, use, useMemo } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchChatDetails } from '@/app/api/query';
 import {
@@ -47,6 +47,16 @@ interface Message {
   isOwn: boolean;
 }
 
+interface ChatApiMessage {
+  id: string;
+  senderId: string;
+  senderName?: string;
+  message?: string;
+  content?: string;
+  type: 'text' | 'image' | 'emoji';
+  timestamp: string | Date;
+}
+
 export default function ChatPage({ params }: Props) {
   const resolvedParams = use(params);
   const [newMessage, setNewMessage] = useState('');
@@ -61,10 +71,6 @@ export default function ChatPage({ params }: Props) {
     refetchOnWindowFocus: false
   });
 
-  console.log('Chat data:', chatData);
-  console.log('Loading:', isLoading);
-  console.log('Error:', error);
-
   const chatUser = chatData ? {
     name: chatData.fullName || chatData.username,
     avatar: chatData.avatarUrl || '/images/default-avatar.png',
@@ -72,23 +78,24 @@ export default function ChatPage({ params }: Props) {
     lastSeen: chatData.lastSeen ? new Date(chatData.lastSeen) : new Date()
   } : null;
 
-  const messages = chatData?.messages?.map((msg: any) => ({
-    id: msg.id,
-    senderId: msg.senderId,
-    senderName: msg.senderName || 'User',
-    senderAvatar: '/images/default-avatar.png',
-    content: msg.message || msg.content,
-    type: msg.type === 'image' ? 'image' : 'text',
-    timestamp: new Date(msg.timestamp),
-    isOwn: msg.senderId === 'user1' // 현재 사용자를 user1으로 가정
-  })) || [];
+  const messages = useMemo(() => (
+    (chatData?.messages ?? []).map((msg: ChatApiMessage) => ({
+      id: msg.id,
+      senderId: msg.senderId,
+      senderName: msg.senderName || 'User',
+      senderAvatar: '/images/default-avatar.png',
+      content: msg.message || msg.content || '',
+      type: msg.type === 'image' ? ('image' as const) : ('text' as const),
+      timestamp: new Date(msg.timestamp),
+      isOwn: msg.senderId === 'user1',
+    }))
+  ), [chatData?.messages]);
 
   // 메시지 전송
   const handleSendMessage = () => {
     if (!newMessage.trim() || !chatUser) return;
 
     // 실제로는 서버에 메시지 전송하는 로직이 필요
-    console.log('Sending message:', newMessage);
     setNewMessage('');
   };
 

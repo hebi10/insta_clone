@@ -11,7 +11,6 @@ import {
   ExploreSubtitle,
   ExploreGrid,
   ExploreItem,
-  ExploreImage,
   ExploreOverlay,
   OverlayStats,
   LoadingContainer,

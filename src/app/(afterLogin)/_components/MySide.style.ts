@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 
 export const MySideContainer = styled.div`
-  padding: 18px 0;
+  padding: 14px 0;
 `;
 
 export const UserProfile = styled.div`
   display: flex;
   align-items: center;
-  margin-bottom: 20px;
+  margin-bottom: 18px;
   padding: 10px 0;
   gap: 14px;
 `;
@@ -33,7 +33,7 @@ export const SectionHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 
   span {
     font-size: 14px;
@@ -58,7 +58,7 @@ export const SeeAllBtn = styled.button`
 export const SuggestList = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
 `;
 
 export const SuggestRow = styled.div`

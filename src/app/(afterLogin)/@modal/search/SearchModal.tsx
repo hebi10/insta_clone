@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchSearchResults } from '@/app/api/query';
 import SafeImage from '@/app/_components/SafeImage';
@@ -21,7 +21,6 @@ import {
   ClearAllButton,
   SearchResultsList,
   SearchResultItem,
-  ResultAvatar,
   ResultInfo,
   ResultUsername,
   ResultName,
@@ -30,7 +29,6 @@ import {
   PopularSection,
   PopularGrid,
   PopularItem,
-  PopularImage,
 } from './SearchModal.style';
 import { FiSearch, FiX } from 'react-icons/fi';
 
@@ -47,67 +45,41 @@ interface SearchResult {
   isVerified?: boolean;
 }
 
+interface SearchData {
+  users: SearchResult[];
+}
+
+const recentItems: SearchResult[] = [
+  { id: '1', username: 'film_archive', fullName: 'Film Archive', avatar: 'https://picsum.photos/seed/avatar-film/44/44', isVerified: true },
+  { id: '2', username: 'daily_table', fullName: 'Daily Table', avatar: 'https://picsum.photos/seed/avatar-table/44/44' },
+  { id: '3', username: 'seoul_walks', fullName: 'Seoul Walks', avatar: 'https://picsum.photos/seed/avatar-seoul/44/44' },
+];
+
 export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   const [searchQuery, setSearchQuery] = useState('');
   const [recentSearches, setRecentSearches] = useState<SearchResult[]>([]);
   const [popularImages, setPopularImages] = useState<string[]>([]);
 
-  // 검색 API 호출
-  const { data: searchData, isLoading } = useQuery({
+  const { data: searchData, isLoading } = useQuery<SearchData>({
     queryKey: ['search', searchQuery],
     queryFn: () => fetchSearchResults(searchQuery),
     enabled: searchQuery.trim().length > 0,
-    staleTime: 30000, // 30초간 캐시 유지
+    staleTime: 30 * 1000,
   });
 
-  // Mock 데이터 생성 (최근 검색 및 인기 이미지)
   useEffect(() => {
-    const mockRecentSearches: SearchResult[] = [
-      {
-        id: '1',
-        username: 'john_doe',
-        fullName: 'John Doe',
-        avatar: 'https://picsum.photos/seed/user1/40/40',
-      },
-      {
-        id: '2',
-        username: 'jane_smith',
-        fullName: 'Jane Smith',
-        avatar: 'https://picsum.photos/seed/user2/40/40',
-      },
-      {
-        id: '3',
-        username: 'design_studio',
-        fullName: 'Design Studio',
-        avatar: 'https://picsum.photos/seed/user3/40/40',
-        isVerified: true,
-      },
-    ];
-    setRecentSearches(mockRecentSearches);
-
-    // 인기 이미지 생성 - 클라이언트에서만 실행
-    const images = Array.from({ length: 9 }, (_, i) => 
-      `https://picsum.photos/seed/popular-${i}/120/120`
+    setRecentSearches(recentItems);
+    setPopularImages(
+      Array.from({ length: 9 }, (_, index) => `https://picsum.photos/seed/explore-${index + 1}/120/120`)
     );
-    setPopularImages(images);
   }, []);
-
-  const handleClearSearch = () => {
-    setSearchQuery('');
-  };
 
   const handleClearAllRecent = () => {
     setRecentSearches([]);
   };
 
   const handleRemoveRecent = (id: string) => {
-    setRecentSearches(prev => prev.filter(item => item.id !== id));
-  };
-
-  const handleResultClick = (result: SearchResult) => {
-    // 검색 결과 클릭 처리
-    console.log('Selected:', result);
-    onClose();
+    setRecentSearches((items) => items.filter((item) => item.id !== id));
   };
 
   return (
@@ -116,7 +88,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
         <SearchModalHeader>
           <SearchTitle>
             검색
-            <MobileCloseButton onClick={onClose}>
+            <MobileCloseButton type="button" aria-label="검색 닫기" onClick={onClose}>
               <FiX />
             </MobileCloseButton>
           </SearchTitle>
@@ -132,7 +104,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               autoFocus
             />
             {searchQuery && (
-              <ClearButton onClick={handleClearSearch}>
+              <ClearButton onClick={() => setSearchQuery('')}>
                 <FiX />
               </ClearButton>
             )}
@@ -142,21 +114,15 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
         <SearchContent>
           {!searchQuery ? (
             <>
-              {/* 최근 검색 */}
               {recentSearches.length > 0 && (
                 <RecentSection>
                   <SectionHeader>
                     <SectionTitle>최근 검색 항목</SectionTitle>
-                    <ClearAllButton onClick={handleClearAllRecent}>
-                      모두 지우기
-                    </ClearAllButton>
+                    <ClearAllButton onClick={handleClearAllRecent}>모두 지우기</ClearAllButton>
                   </SectionHeader>
                   <SearchResultsList>
                     {recentSearches.map((item) => (
-                      <SearchResultItem 
-                        key={item.id}
-                        onClick={() => handleResultClick(item)}
-                      >
+                      <SearchResultItem key={item.id} onClick={onClose}>
                         <SafeImage
                           src={item.avatar}
                           alt={item.username}
@@ -167,11 +133,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                         <ResultInfo>
                           <ResultUsername>
                             {item.username}
-                            {item.isVerified && ' ✓'}
+                            {item.isVerified && ' · 인증됨'}
                           </ResultUsername>
                           <ResultName>{item.fullName}</ResultName>
                         </ResultInfo>
-                        <RemoveButton 
+                        <RemoveButton
                           onClick={(e) => {
                             e.stopPropagation();
                             handleRemoveRecent(item.id);
@@ -185,12 +151,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 </RecentSection>
               )}
 
-              {/* 인기 게시물 */}
               <PopularSection>
                 <SectionTitle>인기</SectionTitle>
                 <PopularGrid>
                   {popularImages.map((image, index) => (
-                    <PopularItem key={index}>
+                    <PopularItem key={image}>
                       <SafeImage
                         src={image}
                         alt={`인기 게시물 ${index + 1}`}
@@ -204,15 +169,11 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               </PopularSection>
             </>
           ) : (
-            /* 검색 결과 */
             <RecentSection>
               {searchData?.users && searchData.users.length > 0 ? (
                 <SearchResultsList>
-                  {searchData.users.map((item: any) => (
-                    <SearchResultItem 
-                      key={item.id}
-                      onClick={() => handleResultClick(item)}
-                    >
+                  {searchData.users.map((item) => (
+                    <SearchResultItem key={item.id} onClick={onClose}>
                       <SafeImage
                         src={item.avatar}
                         alt={item.username}
@@ -223,7 +184,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       <ResultInfo>
                         <ResultUsername>
                           {item.username}
-                          {item.isVerified && ' ✓'}
+                          {item.isVerified && ' · 인증됨'}
                         </ResultUsername>
                         <ResultName>{item.fullName}</ResultName>
                       </ResultInfo>
@@ -233,9 +194,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
               ) : isLoading ? (
                 <NoResultsMessage>검색 중...</NoResultsMessage>
               ) : (
-                <NoResultsMessage>
-                  "{searchQuery}"에 대한 결과를 찾을 수 없습니다.
-                </NoResultsMessage>
+                <NoResultsMessage>{`"${searchQuery}"에 대한 결과를 찾을 수 없습니다.`}</NoResultsMessage>
               )}
             </RecentSection>
           )}

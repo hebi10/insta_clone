@@ -57,8 +57,6 @@ export async function POST(request: Request) {
       isVerified: false,
     };
 
-    console.log('New user created:', newUser);
-
     return NextResponse.json(
       { 
         message: '계정이 성공적으로 생성되었습니다.',
@@ -73,8 +71,7 @@ export async function POST(request: Request) {
       { status: 201 }
     );
 
-  } catch (error) {
-    console.error('Signup error:', error);
+  } catch {
     return NextResponse.json(
       { message: '서버 오류가 발생했습니다.' },
       { status: 500 }

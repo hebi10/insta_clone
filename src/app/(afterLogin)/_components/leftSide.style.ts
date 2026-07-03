@@ -5,47 +5,32 @@ export const NavWrap = styled.nav.withConfig({
 })<{ isSearchMode?: boolean }>`
   display: flex;
   flex-direction: column;
-  padding: 32px 12px 20px 12px;
+  padding: 28px 12px 20px 12px;
   height: 100dvh;
   box-sizing: border-box;
   background-color: #ffffff;
   border-right: 1px solid #dbdbdb;
-  width: ${props => props.isSearchMode ? '72px' : '220px'};
+  width: ${props => props.isSearchMode ? '72px' : '244px'};
   transition: width 0.3s ease;
   overflow: hidden;
   
   /* 태블릿에서는 항상 좁은 사이드바 */
   @media ${props => props.theme.media.tablet} {
-    width: 72px;
-    padding: 32px 6px 20px 6px;
+    width: ${props => props.isSearchMode ? '72px' : '244px'};
   }
   
   /* 모바일에서는 하단 탭바로 변경 */
   @media ${props => props.theme.media.mobile} {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: auto;
-    height: 50px;
-    width: 100%;
-    flex-direction: row;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0;
-    border-right: none;
-    border-top: 1px solid #dbdbdb;
-    background-color: white;
-    z-index: 1000;
-    box-shadow: 0 -1px 5px rgba(0, 0, 0, 0.05);
+    width: 72px;
+    padding: 32px 6px 20px 6px;
   }
 `;
 
 export const Logo = styled.div.withConfig({
   shouldForwardProp: (prop) => prop !== 'isSearchMode',
 })<{ isSearchMode?: boolean }>`
-  padding: 12px 12px 24px 12px;
-  margin-bottom: 19px;
+  padding: 12px 12px 26px 12px;
+  margin-bottom: 12px;
   
   img {
     height: 29px;
@@ -54,8 +39,8 @@ export const Logo = styled.div.withConfig({
   
   /* 텍스트 로고 */
   font-family: 'Lobster Two', cursive;
-  font-size: ${props => props.isSearchMode ? '0px' : '24px'};
-  font-weight: 400;
+  font-size: ${props => props.isSearchMode ? '0px' : '25px'};
+  font-weight: 700;
   color: #262626;
   cursor: pointer;
   transition: font-size 0.3s ease;
@@ -64,8 +49,8 @@ export const Logo = styled.div.withConfig({
   
   /* 태블릿에서는 로고 숨김 */
   @media ${props => props.theme.media.tablet} {
-    font-size: 0px;
-    padding: 12px 6px 24px 6px;
+    font-size: ${props => props.isSearchMode ? '0px' : '25px'};
+    padding: 12px 12px 26px 12px;
   }
   
   /* 모바일에서는 로고 완전 숨김 */
@@ -85,14 +70,7 @@ export const NavList = styled.ul`
   
   /* 모바일에서는 가로 배치 */
   @media ${props => props.theme.media.mobile} {
-    flex-direction: row !important;
-    justify-content: space-around !important;
-    align-items: center !important;
-    gap: 0 !important;
-    flex-grow: 0 !important;
-    width: 100% !important;
-    height: 100% !important;
-    display: flex !important;
+    flex-direction: column;
   }
 `;
 
@@ -105,7 +83,7 @@ export const NavItem = styled.li.withConfig({
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 12px 12px;
+    padding: 12px;
     font-size: 16px;
     font-weight: 400;
     color: #262626;
@@ -118,7 +96,7 @@ export const NavItem = styled.li.withConfig({
     cursor: pointer;
     
     &:hover {
-      background-color: #fafafa;
+      background-color: #f2f2f2;
     }
     
     svg {
@@ -144,7 +122,7 @@ export const NavItem = styled.li.withConfig({
       
       /* 태블릿에서는 텍스트 숨김 */
       @media ${props => props.theme.media.tablet} {
-        display: none;
+        display: inline;
       }
       
       /* 모바일에서는 텍스트 숨김 */
@@ -155,23 +133,15 @@ export const NavItem = styled.li.withConfig({
     
     /* 태블릿 및 모바일에서 아이콘만 표시 */
     @media ${props => props.theme.media.tablet} {
-      gap: 0;
-      padding: 12px 6px;
-      justify-content: center;
+      gap: 16px;
+      padding: 12px;
+      justify-content: flex-start;
     }
     
     @media ${props => props.theme.media.mobile} {
       gap: 0;
-      padding: 0;
+      padding: 12px 6px;
       justify-content: center;
-      min-width: auto;
-      height: 50px;
-      width: auto;
-      flex: 1;
-      
-      &:hover {
-        background-color: transparent;
-      }
     }
   }
   
@@ -272,7 +242,7 @@ export const MenuToggle = styled.div.withConfig({
       overflow: hidden;
       
       @media ${props => props.theme.media.tablet} {
-        opacity: 0;
+        opacity: ${props => props.isSearchMode ? '0' : '1'};
       }
       
       @media ${props => props.theme.media.mobile} {
@@ -281,9 +251,9 @@ export const MenuToggle = styled.div.withConfig({
     }
     
     @media ${props => props.theme.media.tablet} {
-      gap: 0;
-      padding: 12px 6px;
-      justify-content: center;
+      gap: 16px;
+      padding: 12px 0;
+      justify-content: flex-start;
     }
     
     @media ${props => props.theme.media.mobile} {

@@ -6,7 +6,6 @@ import {
   FeedWrapper,
   FeedHeader,
   FeedHeaderLeft,
-  FeedImage,
   FeedActions,
   ActionsLeft,
   ActionButton,
@@ -21,8 +20,6 @@ import {
   PostButton,
   Username,
   UserInfo,
-  Location,
-  Avatar,
   MoreButton,
 } from './feed.style';
 import { 
@@ -66,7 +63,6 @@ export default function FeedItem({
 
   const handleComment = () => {
     if (comment.trim()) {
-      // TODO: 댓글 API 연동
       setComment('');
     }
   };
@@ -98,9 +94,9 @@ export default function FeedItem({
       <SafeImage 
         src={imageUrl} 
         alt="post"
-        width={600}
-        height={400}
-        style={{ width: '100%', maxWidth: '600px' }}
+        width={470}
+        height={470}
+        style={{ width: '100%', height: 'auto', aspectRatio: '1 / 1' }}
       />
 
       {/* 액션 버튼들 */}

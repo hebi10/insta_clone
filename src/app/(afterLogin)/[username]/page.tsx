@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, use } from 'react';
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchUserProfile, fetchUserPosts } from '@/app/api/query';
 import SafeImage from '@/app/_components/SafeImage';
@@ -33,23 +33,6 @@ import {
 import { FiGrid, FiBookmark, FiTag, FiHeart, FiMessageCircle, FiCamera } from 'react-icons/fi';
 import { useParams } from 'next/navigation';
 
-interface Props {
-  params: Promise<{ username: string }>;
-}
-
-interface ProfileData {
-  username: string;
-  fullName: string;
-  avatar: string;
-  bio: string;
-  website: string;
-  postsCount: number;
-  followersCount: number;
-  followingCount: number;
-  isFollowing: boolean;
-  isOwnProfile: boolean;
-}
-
 interface Post {
   id: string;
   imageUrl: string;
@@ -57,7 +40,7 @@ interface Post {
   commentCount: number;
 }
 
-export default function ProfilePage({ params }: Props) {
+export default function ProfilePage() {
   const resolvedParams = useParams();
   const [activeTab, setActiveTab] = useState('posts');
 
@@ -84,7 +67,6 @@ export default function ProfilePage({ params }: Props) {
 
   const handleFollow = () => {
     // 실제로는 서버에 팔로우/언팔로우 요청을 보내는 로직이 필요
-    console.log('Toggle follow for:', username);
   };
 
   const formatNumber = (num: number | undefined | null) => {
@@ -126,7 +108,7 @@ export default function ProfilePage({ params }: Props) {
       <ProfileHeader>
         <ProfileAvatar>
           <SafeImage
-            src='/images/default-avatar.png'
+            src={profileData?.avatar || '/images/default-avatar.png'}
             alt={profileData?.username || 'User'}
             width={150}
             height={150}

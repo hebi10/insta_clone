@@ -67,7 +67,7 @@ export const {
     signIn: '/',
   },
   callbacks: {
-    async signIn({ user, account, profile, email, credentials }) {
+    async signIn() {
       return true;
     },
     async redirect({ url, baseUrl }) {
@@ -81,10 +81,10 @@ export const {
       }
       return baseUrl + '/';
     },
-    async session({ session, user, token }) {
+    async session({ session }) {
       return session;
     },
-    async jwt({ token, user, account, profile, isNewUser }) {
+    async jwt({ token }) {
       return token;
     }
   }

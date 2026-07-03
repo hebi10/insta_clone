@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { fetchChats } from '@/app/api/query';
 import Link from 'next/link';

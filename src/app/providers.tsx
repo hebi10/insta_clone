@@ -1,38 +1,29 @@
 'use client';
-import StyledComponentsRegistry from "./_lib/registry";
+
+import StyledComponentsRegistry from './_lib/registry';
 import GlobalStyle from '@/app/_styles/global.style';
 import FontsStyle from '@/app/_styles/fonts.style';
-import { ThemeProvider } from "styled-components";
-import { theme } from "@/app/_styles/theme";
-import { useState, useEffect } from "react";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-import { SessionProvider } from "next-auth/react";
-import { makeServer } from "@/mock/server";
+import { ThemeProvider } from 'styled-components';
+import { theme } from '@/app/_styles/theme';
+import { useState } from 'react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { SessionProvider } from 'next-auth/react';
 
 interface ProvidersProps {
   children: React.ReactNode;
 }
 
 export default function Providers({ children }: ProvidersProps) {
-  const [client] = useState(() => new QueryClient());
-
-  // Mock 서버 초기화 (개발 환경에서만)
-  useEffect(() => {
-    if (typeof window !== 'undefined' && (process.env.NODE_ENV === 'development' || process.env.NEXT_PUBLIC_MODE === 'development')) {
-      // 중복 초기화 방지를 위한 플래그
-      if ((window as any).__MIRAGE_INITIALIZED__) {
-        return;
-      }
-      
-      try {
-        (window as any).server = makeServer();
-        (window as any).__MIRAGE_INITIALIZED__ = true;
-      } catch (error) {
-        console.error('MirageJS init failed:', error);
-      }
-    }
-  }, []);
+  const [client] = useState(() => new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: 30 * 1000,
+        gcTime: 5 * 60 * 1000,
+        refetchOnWindowFocus: false,
+      },
+    },
+  }));
 
   return (
     <QueryClientProvider client={client}>
@@ -45,7 +36,9 @@ export default function Providers({ children }: ProvidersProps) {
           </StyledComponentsRegistry>
         </ThemeProvider>
       </SessionProvider>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {process.env.NODE_ENV === 'development' && (
+        <ReactQueryDevtools initialIsOpen={false} />
+      )}
     </QueryClientProvider>
   );
 }

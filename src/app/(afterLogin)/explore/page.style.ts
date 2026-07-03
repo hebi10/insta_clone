@@ -3,7 +3,7 @@ import styled from 'styled-components';
 export const ExploreContainer = styled.div`
   max-width: 975px;
   margin: 0 auto;
-  padding: 30px 20px;
+  padding: 24px 20px 60px;
   background-color: #fff;
   min-height: 100dvh;
   
@@ -22,7 +22,7 @@ export const ExploreContainer = styled.div`
 `;
 
 export const ExploreHeader = styled.div`
-  margin-bottom: 28px;
+  margin-bottom: 18px;
   
   /* 모바일에서 마진 조정 */
   @media ${props => props.theme.media.mobile} {

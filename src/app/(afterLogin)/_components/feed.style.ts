@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 export const FeedWrapper = styled.article`
-  border: 1px solid #dbdbdb;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  max-width: 600px;
+  border-bottom: 1px solid #dbdbdb;
+  margin-bottom: 12px;
+  max-width: 470px;
   width: 100%;
   background-color: #ffffff;
   overflow: hidden;
@@ -29,7 +28,7 @@ export const FeedHeader = styled.header`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 14px 16px;
+  padding: 10px 4px 10px 4px;
   background-color: #ffffff;
   
   /* 모바일에서 패딩 조정 */
@@ -115,19 +114,19 @@ export const FeedActions = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 4px 12px 6px;
+  padding: 4px 0 6px;
 `;
 
 export const ActionsLeft = styled.div`
   display: flex;
-  gap: 14px;
+  gap: 8px;
 `;
 
 export const ActionButton = styled.button`
   background: none;
   border: none;
   cursor: pointer;
-  padding: 8px;
+  padding: 8px 8px 8px 0;
   border-radius: 50%;
   
   &:hover {
@@ -153,7 +152,7 @@ export const ActionButton = styled.button`
 `;
 
 export const LikesSection = styled.div`
-  padding: 0 12px 6px;
+  padding: 0 0 6px;
 `;
 
 export const Likes = styled.div`
@@ -164,7 +163,7 @@ export const Likes = styled.div`
 `;
 
 export const FeedContent = styled.div`
-  padding: 0 12px 6px;
+  padding: 0 0 6px;
 `;
 
 export const Description = styled.div`
@@ -208,7 +207,7 @@ export const TimeStamp = styled.div`
 
 export const CommentSection = styled.div`
   border-top: 1px solid #efefef;
-  padding: 6px 12px;
+  padding: 8px 0 10px;
   display: flex;
   align-items: center;
   gap: 10px;

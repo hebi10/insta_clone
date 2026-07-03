@@ -9,7 +9,7 @@ export const Main = styled.div`
 export const ContentArea = styled.div`
   display: flex;
   justify-content: center;
-  gap: 50px;
+  gap: 64px;
   width: 100%;
   padding: 0 20px;
 
@@ -45,7 +45,7 @@ export const LeftList = styled.div`
 `;
 
 export const RightArea = styled.div`
-  width: 320px;
+  width: 300px;
   flex-shrink: 0;
   padding: 18px 0;
 

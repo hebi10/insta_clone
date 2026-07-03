@@ -8,10 +8,8 @@ import {
   ReelsPageWrapper,
   ReelsContainer,
   ReelItem,
-  ReelVideo,
   ReelOverlay,
   ReelHeader,
-  ReelAvatar,
   ReelUsername,
   FollowButton,
   ReelDescription,
@@ -76,6 +74,14 @@ export default function ReelsPage() {
     );
   };
 
+  const renderDescription = (description: string) => (
+    description.split(/(#[\w가-힣]+)/g).map((part, index) => (
+      part.startsWith('#') ? (
+        <span className="hashtag" key={`${part}-${index}`}>{part}</span>
+      ) : part
+    ))
+  );
+
   if (isLoading) {
     return (
       <ReelsPageWrapper>
@@ -113,14 +119,7 @@ export default function ReelsPage() {
                 </FollowButton>
               )}
             </ReelHeader>
-            <ReelDescription
-              dangerouslySetInnerHTML={{
-                __html: reel.description.replace(
-                  /#(\w+)/g,
-                  '<span class="hashtag">#$1</span>'
-                ),
-              }}
-            />
+            <ReelDescription>{renderDescription(reel.description)}</ReelDescription>
           </ReelOverlay>
 
           <ReelSidebar>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   CreateModalOverlay,
@@ -35,12 +35,7 @@ import {
 } from '../../create/page.style';
 import { FiImage, FiX } from 'react-icons/fi';
 
-interface CreateModalProps {
-  params?: Promise<{ [key: string]: string | string[] }>;
-  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
-}
-
-export default function CreateModal({ params, searchParams }: CreateModalProps) {
+export default function CreateModal() {
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -135,7 +130,6 @@ export default function CreateModal({ params, searchParams }: CreateModalProps) 
         throw new Error('Failed to create post');
       }
 
-      const data = await response.json();
       
       // 업로드 완료 후 홈으로 이동
       alert('게시물이 성공적으로 업로드되었습니다!');
@@ -159,10 +153,6 @@ export default function CreateModal({ params, searchParams }: CreateModalProps) 
       handleClose();
     }
   };
-
-  useEffect(() => {
-    console.log("실행되는지 테스트, 만들기 모달 O");
-  }, []);
 
   return (
     <>

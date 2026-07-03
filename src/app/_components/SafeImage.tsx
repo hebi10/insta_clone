@@ -18,8 +18,8 @@ const ImageContainer = styled.div<{ width?: number; height?: number }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #f6f6f6;
-  border-radius: 8px;
+  background-color: #fafafa;
+  border-radius: 0;
   overflow: hidden;
 `;
 
@@ -35,8 +35,8 @@ const FallbackContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #efefef;
+  color: #737373;
   font-size: 14px;
   font-weight: 500;
 `;

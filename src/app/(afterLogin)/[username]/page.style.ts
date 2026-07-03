@@ -3,14 +3,14 @@ import styled from 'styled-components';
 export const ProfileContainer = styled.div`
   max-width: 975px;
   margin: 0 auto;
-  padding: 30px 20px;
+  padding: 30px 20px 60px;
   background-color: #fff;
   min-height: 100dvh;
 `;
 
 export const ProfileHeader = styled.div`
   display: flex;
-  margin-bottom: 44px;
+  margin-bottom: 38px;
   
   @media (max-width: 768px) {
     flex-direction: column;
@@ -214,10 +214,10 @@ export const TabItem = styled.button.withConfig({
 export const PostsGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 28px;
+  gap: 4px;
   
   @media (max-width: 768px) {
-    gap: 3px;
+    gap: 2px;
   }
 `;
 

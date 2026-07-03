@@ -39,7 +39,7 @@ export default function LoginForm() {
       } else if (result?.ok) {
         router.replace('/');
       }
-    } catch (err) {
+    } catch {
       setMessage('로그인 중 오류가 발생했습니다.');
       id.reset();
       password.reset();

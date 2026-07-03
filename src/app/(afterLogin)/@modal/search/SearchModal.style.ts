@@ -32,7 +32,7 @@ export const SearchModalContainer = styled.div.withConfig({
   height: 100dvh;
   background-color: #ffffff;
   box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
-  border-radius: 0 16px 16px 0;
+  border-radius: 0 12px 12px 0;
   display: flex;
   flex-direction: column;
   z-index: 51; /* LeftArea보다 낮지만 Overlay보다는 높게 */
@@ -61,25 +61,28 @@ export const SearchModalHeader = styled.div`
 `;
 
 export const MobileCloseButton = styled.button`
-  display: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #262626;
+  border-radius: 50%;
+
+  &:hover {
+    background-color: #f5f5f5;
+  }
+
+  svg {
+    width: 24px;
+    height: 24px;
+  }
   
   @media ${props => props.theme.media.mobile} {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: #262626;
-      background-color: #f5f5f5;
-      border-radius: 50%;
-    
-    svg {
-      width: 24px;
-      height: 24px;
-    }
+    background-color: #f5f5f5;
   }
 `;
 
@@ -90,7 +93,7 @@ export const SearchTitle = styled.h2`
   font-weight: 600;
   color: #262626;
   margin: 0;
-  padding: 20px 24px 16px 24px;
+  padding: 20px 24px 14px 24px;
 `;
 
 export const SearchInputContainer = styled.div`

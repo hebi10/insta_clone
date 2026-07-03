@@ -22,11 +22,11 @@ interface MySideProps {
 }
 
 const suggestUsers = [
-  { id: 1, name: "j_movie_log", desc: "회원님을 위한 추천" },
-  { id: 2, name: "daily_baking_", desc: "Instagram 신규 가입" },
-  { id: 3, name: "hiking._.seoul", desc: "회원님을 위한 추천" },
-  { id: 4, name: "ux_soojin", desc: "design_ref_kr 님 외 3명이 팔로우합니다" },
-  { id: 5, name: "eat_repeat_kr", desc: "Instagram 신규 가입" },
+  { id: 1, name: "film_archive", desc: "회원님을 위한 추천", avatar: "https://picsum.photos/seed/avatar-film/64/64" },
+  { id: 2, name: "daily_table", desc: "최근 활동이 많은 계정", avatar: "https://picsum.photos/seed/avatar-table/64/64" },
+  { id: 3, name: "seoul_walks", desc: "회원님을 위한 추천", avatar: "https://picsum.photos/seed/avatar-seoul/64/64" },
+  { id: 4, name: "ui_collective", desc: "design_ref_kr 님이 팔로우합니다", avatar: "https://picsum.photos/seed/avatar-ui/64/64" },
+  { id: 5, name: "cafe_weekend", desc: "새로 가입한 계정", avatar: "https://picsum.photos/seed/avatar-cafe/64/64" },
 ];
 
 export default function MySide({ session }: MySideProps) {
@@ -55,7 +55,7 @@ export default function MySide({ session }: MySideProps) {
         {suggestUsers.map((u) => (
           <SuggestRow key={u.id}>
             <SafeImage
-              src='/images/default-avatar.png'
+              src={u.avatar}
               alt={u.name}
               width={32}
               height={32}
