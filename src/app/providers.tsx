@@ -7,7 +7,6 @@ import { ThemeProvider } from 'styled-components';
 import { theme } from '@/app/_styles/theme';
 import { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SessionProvider } from 'next-auth/react';
 
 interface ProvidersProps {
@@ -36,9 +35,6 @@ export default function Providers({ children }: ProvidersProps) {
           </StyledComponentsRegistry>
         </ThemeProvider>
       </SessionProvider>
-      {process.env.NODE_ENV === 'development' && (
-        <ReactQueryDevtools initialIsOpen={false} />
-      )}
     </QueryClientProvider>
   );
 }
